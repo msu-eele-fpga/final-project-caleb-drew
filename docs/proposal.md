@@ -19,9 +19,6 @@ The software portion will then be doing control calculations based on the feedba
 
 The input to the software control portion will be the desired angular position of the inverted pendulum. 
 
-## Extra credit
-Define any extra credit proposals here.
-
 ## Division of labor
 
 Drew will be responsible for writing the hardware interface for the LCD and control algorithm for the inverted pendulum in software. 
