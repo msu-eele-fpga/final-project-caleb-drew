@@ -22,7 +22,7 @@ The input to the software control portion will be the desired angular position o
 The RGB led will display a color based on the potentiometers inputs on the Red, Green, and Blue channels. The RGB value being displayed will also be shown on the LCD.
 
 ## Extra credit
-None 
+Displaying RGB values on the LCD
 
 ## Division of labor
 Drew will be responsible for writing the hardware interface for the LCD and control algorithm for the inverted pendulum in software.
