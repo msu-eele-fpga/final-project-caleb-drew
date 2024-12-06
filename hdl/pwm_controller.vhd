@@ -33,7 +33,7 @@ begin
   process (clk, period, duty_cycle)
   begin
     PERIOD_LIMIT_TOTAL       <= period * to_unsigned(counts_per_ms, 16);
-    PERIOD_LIMIT_TOTAL_INT   <= to_integer(PERIOD_LIMIT_TOTAL(45 downto 23));
+    PERIOD_LIMIT_TOTAL_INT   <= to_integer(PERIOD_LIMIT_TOTAL(45 downto 24));
     DUTY_CYCLE_LIMIT_TOT     <= period * unsigned(duty_cycle) * to_unsigned(counts_per_ms, 16);
     DUTY_CYCLE_LIMIT_TOT_INT <= to_integer(DUTY_CYCLE_LIMIT_TOT(64 downto 42));
   end process;
