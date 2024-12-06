@@ -17,10 +17,13 @@ architecture encoder_counter_tb_arch of encoder_counter_tb is
     );
   end component;
 
-  signal clk_tb    : std_logic := '0';
-  signal rst_tb    : std_logic := '0';
-  signal input_tb  : std_logic_vector(1 downto 0);
-  signal counts_tb : integer := 0;
+  signal clk_tb        : std_logic := '0';
+  signal rst_tb        : std_logic := '0';
+  signal input_tb      : std_logic_vector(1 downto 0);
+  signal counts_tb     : integer                       := 0;
+  signal period_tb     : unsigned(29 downto 0)         := "000001000000000000000000000000";
+  signal duty_cycle_tb : std_logic_vector(18 downto 0) := "0110000000000000000";
+  signal output_tb     : std_logic                     := '0';
 
 begin
 
