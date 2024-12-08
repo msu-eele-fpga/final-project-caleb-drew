@@ -89,8 +89,10 @@ begin
         --LCD is ready for the next write
         rs              <= write_register(8);
         output_register <= write_register(7 downto 0);
+        busy_flag       <= '0';
       else
         --Really do nothing, the LCD isn't ready for another instruction 
+        busy_flag <= '1';
       end if;
     end if;
   end process;
