@@ -3,8 +3,8 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 entity led_patterns_avalon is
   port (
-    clk : in std_ulogic;
-    rst : in std_ulogic;
+    clk   : in std_ulogic;
+    reset : in std_ulogic;
     -- avalon memory-mapped slave interface
     avs_read      : in std_logic;
     avs_write     : in std_logic;
@@ -39,7 +39,7 @@ begin
   motor_driver_and_encoder : motor_interface
   port map(
     clk            => clk,
-    rst            => rst,
+    rst            => reset,
     encoder_input  => encoder_input,
     encoder_counts => encoder_counts,
     period         => pwm_period(29 downto 0),
@@ -63,9 +63,9 @@ begin
     end if;
   end process avalon_register_read;
 
-  avalon_register_write : process (clk, rst)
+  avalon_register_write : process (clk, reset)
   begin
-    if rst = '1' then
+    if reset = '1' then
       pwm_period     <= "00000001000000000000000000000000";
       duty_cycle     <= "00000000000000000000000000000000";
       encoder_counts <= 0;
