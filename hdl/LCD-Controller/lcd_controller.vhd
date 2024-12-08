@@ -22,7 +22,9 @@ entity lcd_controller is
     clk   : in std_logic;
     reset : in std_logic;
     --LCD Specific inputs
-    write_register  : in std_logic_vector(8 downto 0);
+    write_register : in std_logic_vector(8 downto 0);
+    --Write enable 
+    write_enable    : in std_logic;
     output_register : out std_logic_vector(7 downto 0);
     rs              : out std_logic;
     e               : out std_logic;
@@ -86,39 +88,40 @@ begin
   );
 
   busy_flag <= not ready_flag;
-
   proc_lcd_write : process (clk, reset, ready_flag)
   begin
     if reset = '1' then
       output_register <= "00000000";
       rs              <= '0';
       e               <= '0';
-    elsif rising_edge(clk) then
-      --ready_flag is active high
-      if ready_flag = '1' then
-        if done_latch then
-          --LCD is ready for the next write
-          rs              <= write_register(8);
-          output_register <= write_register(7 downto 0);
-          enable_delay    <= true;
-          --Disable ready flag
-          --Disable enable latch
-          --Set enable pin low
-          ready_flag         <= '0';
-          enable_latch_delay <= false;
-          e                  <= '0';
-        elsif not enable_latch_delay then
-          enable_latch_delay <= true;
-          --Set enable bit
-          e <= '1';
+    elsif write_enable = '1' then
+      if rising_edge(clk) then
+        --ready_flag is active high
+        if ready_flag = '1' then
+          if done_latch then
+            --LCD is ready for the next write
+            rs              <= write_register(8);
+            output_register <= write_register(7 downto 0);
+            enable_delay    <= true;
+            --Disable ready flag
+            --Disable enable latch
+            --Set enable pin low
+            ready_flag         <= '0';
+            enable_latch_delay <= false;
+            e                  <= '0';
+          elsif not enable_latch_delay then
+            enable_latch_delay <= true;
+            --Set enable bit
+            e <= '1';
+          else
+            --do nothing waiting for latch to complete. 
+          end if;
+        elsif done_delay then
+          ready_flag   <= '1';
+          enable_delay <= false;
         else
-          --do nothing waiting for latch to complete. 
+          --Really do nothing, the LCD isn't ready for another instruction 
         end if;
-      elsif done_delay then
-        ready_flag   <= '1';
-        enable_delay <= false;
-      else
-        --Really do nothing, the LCD isn't ready for another instruction 
       end if;
     end if;
   end process;
