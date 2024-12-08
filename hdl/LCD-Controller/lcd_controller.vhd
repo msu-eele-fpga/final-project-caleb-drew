@@ -96,6 +96,7 @@ begin
       if ready_flag = '1' then
         if done_latch then
           --LCD is ready for the next write
+          --TODO: Add a check for when to use long instruction delay 
           rs                 <= write_register(8);
           output_register    <= write_register(7 downto 0);
           enable_delay       <= true;
