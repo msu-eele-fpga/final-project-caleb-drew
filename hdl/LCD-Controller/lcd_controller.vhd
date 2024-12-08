@@ -94,10 +94,12 @@ begin
       output_register <= "00000000";
       rs              <= '0';
       e               <= '0';
-    elsif write_enable = '1' then
-      if rising_edge(clk) then
-        --ready_flag is active high
-        if ready_flag = '1' then
+    elsif rising_edge(clk) then
+      --ready_flag is active high
+
+      if ready_flag = '1' then
+        if write_enable = '1' then
+          --If a new write is requested
           if done_latch then
             --LCD is ready for the next write
             rs              <= write_register(8);
@@ -113,15 +115,15 @@ begin
             enable_latch_delay <= true;
             --Set enable bit
             e <= '1';
-          else
-            --do nothing waiting for latch to complete. 
           end if;
-        elsif done_delay then
-          ready_flag   <= '1';
-          enable_delay <= false;
         else
-          --Really do nothing, the LCD isn't ready for another instruction 
+          --do nothing waiting for latch to complete. 
         end if;
+      elsif done_delay then
+        ready_flag   <= '1';
+        enable_delay <= false;
+      else
+        --Really do nothing, the LCD isn't ready for another instruction 
       end if;
     end if;
   end process;
