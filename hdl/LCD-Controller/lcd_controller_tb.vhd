@@ -62,10 +62,18 @@ begin
 
     stimuli_and_checker : process is
     begin
-      print("Testing basic linking of files");
       wait_for_clock_edge(clk_tb);
       reset_tb <= '0';
-      wait_for_clock_edges(clk_tb, 4);
+      print("Testing LCD timing specs");
+      print("--Needs to set latch for 100ns before writing data");
+      print("--Needs to leave data on the bus for 0.037 ms for regular instructions");
+      print("--Needs to leave data on the bus for 1.52 ms for clear and home instructions");
+      instruction <= "00001111";
+      rs          <= '0';
+      wait_for_clock_edges(clk_tb, 10);
+      instruction <= "00000000";
+      --Should be 00001111 as the output preventing new data from being added. 
+      wait_for_clock_edges(clk_tb, 18490); --Total wait time before writing the next instruction
       reset_tb <= '1';
       std.env.finish;
     end process;
