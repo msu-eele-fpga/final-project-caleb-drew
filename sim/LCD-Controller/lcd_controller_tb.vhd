@@ -85,6 +85,13 @@ begin
       write_enable <= '0';
       --Should be 00001111 as the output preventing new data from being added. 
       wait_for_clock_edges(clk_tb, 200000); --Total wait time before writing the next instruction
+      wait_for_clock_edges(clk_tb, 50);
+      --Test setting the write enable to 0 to prevent a write
+      write_enable <= '1';
+      wait_for_clock_edges(Clk_tb, 100);
+      write_enable <= '0';
+      --Should be 00001111 as the output preventing new data from being added. 
+      wait_for_clock_edges(clk_tb, 200000); --Total wait time before writing the next instructio
       reset_tb <= '1';
 
       std.env.finish;
