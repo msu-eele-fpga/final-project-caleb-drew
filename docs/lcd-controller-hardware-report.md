@@ -50,3 +50,16 @@
 
 - busy_timer: clock_divider
 - latch_timer: clock_divider
+
+
+
+
+
+## Test bench results
+
+Testing was done by settings the appropriate bit pattern to turn on the LCD. The test bench then attempts to preform a second write before the write enable is set. This shows the write enable works as expected. The enable latching and instruction write lock out are also shown showing that the timing of the LCD is preserved in the hardware. 
+
+![Write Data](assets/LCD-Controller-VHDL/Initial_write.png)
+
+![Full Write](assets/LCD-Controller-VHDL/Full_write_waveform.png)
+
