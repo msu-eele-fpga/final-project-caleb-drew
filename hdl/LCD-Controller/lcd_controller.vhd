@@ -87,7 +87,7 @@ begin
     done   => done_latch
   );
 
-  busy_flag <= not ready_flag;
+  --busy_flag <= not ready_flag;
   proc_lcd_write : process (clk, reset, ready_flag)
   begin
     if reset = '1' then
@@ -99,6 +99,7 @@ begin
 
       if ready_flag = '1' then
         if write_enable = '1' then
+          busy_flag <= '1';
           --If a new write is requested
           if done_latch then
             --LCD is ready for the next write
@@ -121,6 +122,7 @@ begin
         end if;
       elsif done_delay then
         ready_flag   <= '1';
+        busy_flag    <= '0';
         enable_delay <= false;
       else
         --Really do nothing, the LCD isn't ready for another instruction 
