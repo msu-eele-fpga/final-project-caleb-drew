@@ -33,50 +33,58 @@ architecture lcd_arch of lcd_controller is
 
   --Tell system about the timed counter 
   component clock_divider
-    generic (
-      C_PERIOD : integer := 32
-    );
     port (
       --Basic signals 
       clk    : in std_logic;
-      reset  : in std_logic;
-      enable : in std_logic;
-      --Duration count
-      count : in unsigned(C_PERIOD - 1 downto 0);
+      count  : in integer;
+      enable : in boolean;
       --Output done signal
-      ready : out std_logic
+      done : out boolean
     );
   end component;
   --Internal ready flag for writing, and enable for starting timing
-  signal ready_flag  : std_logic;
-  signal start_delay : std_logic := '0';
+  signal enable_delay : boolean := false;
+  signal done_delay   : boolean;
+  signal ready_flag   : std_logic := '1';
   --Unit conversion constant
   --Timing specs in the datasheet for the LCD are all in ms 
   --Converting clock cycles to ms for convince
-  constant CLOCK_PULSE_PER_MS           : integer := 1 ms / CLK_PERIOD;
-  constant LENGTH_OF_CLOCK_PULSE_PER_MS : integer := 15;
+  constant CLOCK_PULSE_PER_MS : integer := 1 ms / CLK_PERIOD;
   /*
   * in general it will take 0.037 ms per instruction.
   * The clear and return home take 1.52 ms per instruction
   * Declaring some constants to calculate this based on the clock input
   */ --
-  constant SHORT_INSTRUCTION_DELAY : integer               := 185000;
-  constant LONG_INSTRUCTION_DELAY  : integer               := 76000000;
-  signal delay_time                : unsigned(31 downto 0) := (to_unsigned(SHORT_INSTRUCTION_DELAY, 27), others => '0');
+  constant SHORT_INSTRUCTION_DELAY : integer := 185000;
+  constant LONG_INSTRUCTION_DELAY  : integer := 76000000;
+  signal delay_time                : integer := SHORT_INSTRUCTION_DELAY;
 
+  /* Need a second clock divider for an enable latch system
+  * Timing is 100 ns per write to the LCD
+  */ --
+  constant ENABLE_LATCH_TIME : integer := 5;
+  signal enable_latch_delay  : boolean;
+  signal done_latch          : boolean;
 begin
   --Busy timer
   busy_timer : clock_divider
-  generic map(
-    C_PERIOD => 32
-  )
+
   port map(
     clk    => clk,
-    reset  => reset,
     count  => delay_time,
-    enable => start_delay,
-    ready  => ready_flag
+    enable => enable_delay,
+    done   => done_delay
   );
+  --Enable latch timer
+  latch_timer : clock_divider
+  port map(
+    clk    => clk,
+    count  => ENABLE_LATCH_TIME,
+    enable => enable_latch_delay,
+    done   => done_latch
+  );
+
+  busy_flag <= not ready_flag;
 
   proc_lcd_write : process (clk, reset, ready_flag)
   begin
@@ -86,14 +94,25 @@ begin
     elsif rising_edge(clk) then
       --ready_flag is active high
       if ready_flag = '1' then
-        --LCD is ready for the next write
-        rs              <= write_register(8);
-        output_register <= write_register(7 downto 0);
-        busy_flag       <= '0';
+        if done_latch then
+          --LCD is ready for the next write
+          rs                 <= write_register(8);
+          output_register    <= write_register(7 downto 0);
+          enable_delay       <= true;
+          ready_flag         <= '0';
+          enable_latch_delay <= false;
+        elsif not enable_latch_delay then
+          enable_latch_delay <= true;
+        else
+          --do nothing waiting for latch to complete. 
+        end if;
+      elsif done_delay then
+        ready_flag   <= '1';
+        enable_delay <= false;
       else
         --Really do nothing, the LCD isn't ready for another instruction 
-        busy_flag <= '1';
       end if;
     end if;
   end process;
+
 end architecture;
