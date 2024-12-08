@@ -26,6 +26,7 @@ architecture testbench of lcd_tb is
       write_register  : in std_logic_vector(8 downto 0);
       output_register : out std_logic_vector(7 downto 0);
       rs              : out std_logic;
+      e               : out std_logic;
       busy_flag       : out std_logic
     );
   end component;
@@ -37,11 +38,12 @@ architecture testbench of lcd_tb is
 
   --Interface signals
   --Inputs
-  signal instruction : std_logic_vector(7 downto 0);
-  signal RS          : std_logic;
+  signal instruction : std_logic_vector(7 downto 0) := (others => '0');
+  signal RS          : std_logic                    := '0';
   --Outputs
-  signal write_register : std_logic_vector(7 downto 0);
+  signal write_register : std_logic_vector(8 downto 0);
   signal rs_output      : std_logic;
+  signal e_output       : std_logic;
   signal ready          : std_logic;
 
 begin
@@ -55,6 +57,7 @@ begin
       write_register(7 downto 0) => instruction,
       write_register(8)          => rs,
       rs                         => rs_output,
+      e                          => e_output,
       busy_flag                  => ready
     );
     --Create clock
@@ -73,7 +76,7 @@ begin
       wait_for_clock_edges(clk_tb, 10);
       instruction <= "00000000";
       --Should be 00001111 as the output preventing new data from being added. 
-      wait_for_clock_edges(clk_tb, 18490); --Total wait time before writing the next instruction
+      wait_for_clock_edges(clk_tb, 200000); --Total wait time before writing the next instruction
       reset_tb <= '1';
       std.env.finish;
     end process;

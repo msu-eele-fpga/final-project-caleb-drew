@@ -25,6 +25,7 @@ entity lcd_controller is
     write_register  : in std_logic_vector(8 downto 0);
     output_register : out std_logic_vector(7 downto 0);
     rs              : out std_logic;
+    e               : out std_logic;
     busy_flag       : out std_logic
   );
 end entity;
@@ -91,19 +92,25 @@ begin
     if reset = '1' then
       output_register <= "00000000";
       rs              <= '0';
+      e               <= '0';
     elsif rising_edge(clk) then
       --ready_flag is active high
       if ready_flag = '1' then
         if done_latch then
           --LCD is ready for the next write
-          --TODO: Add a check for when to use long instruction delay 
-          rs                 <= write_register(8);
-          output_register    <= write_register(7 downto 0);
-          enable_delay       <= true;
+          rs              <= write_register(8);
+          output_register <= write_register(7 downto 0);
+          enable_delay    <= true;
+          --Disable ready flag
+          --Disable enable latch
+          --Set enable pin low
           ready_flag         <= '0';
           enable_latch_delay <= false;
+          e                  <= '0';
         elsif not enable_latch_delay then
           enable_latch_delay <= true;
+          --Set enable bit
+          e <= '1';
         else
           --do nothing waiting for latch to complete. 
         end if;
