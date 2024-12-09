@@ -132,7 +132,7 @@ entity de10nano_top is
     --  when pressed (asserted)
     --  and produce a '1' in the rest (non-pushed) state
     ----------------------------------------
-    push_button_n : in    std_ulogic_vector(1 downto 0);
+    push_button_n : in    std_logic_vector(1 downto 0);
 
     ----------------------------------------
     --  Slide switch inputs (SW)
@@ -141,14 +141,14 @@ entity de10nano_top is
     --  in the down position
     --  (towards the edge of the board)
     ----------------------------------------
-    sw : in    std_ulogic_vector(3 downto 0);
+    sw : in    std_logic_vector(3 downto 0);
 
     ----------------------------------------
     --  LED outputs
     --  See DE10 Nano User Manual page 26
     --  Setting LED to 1 will turn it on
     ----------------------------------------
-    led : out   std_ulogic_vector(7 downto 0);
+    led : out   std_logic_vector(7 downto 0);
 
     ----------------------------------------
     --  GPIO expansion headers (40-pin)
@@ -157,24 +157,24 @@ entity de10nano_top is
     --  Pin 29 = 3.3 supply (1.5A max)
     --  Pins 12, 30 = GND
     ----------------------------------------
-    gpio_0 : inout std_ulogic_vector(35 downto 0);
-    gpio_1 : inout std_ulogic_vector(35 downto 0);
+    gpio_0 : inout std_logic_vector(35 downto 0);
+    gpio_1 : inout std_logic_vector(35 downto 0);
 
     ----------------------------------------
     --  Arudino headers
     --  See DE10 Nano User Manual page 30
     ----------------------------------------
-    arduino_io      : inout std_ulogic_vector(15 downto 0);
-    arduino_reset_n : inout std_ulogic;
+    arduino_io      : inout std_logic_vector(15 downto 0);
+    arduino_reset_n : inout std_logic;
 
     ----------------------------------------
     --  ADC header
     --  See DE10 Nano User Manual page 32
     ----------------------------------------
-    adc_convst : inout std_ulogic;
-    adc_sck    : out   std_ulogic;
-    adc_sdi    : out   std_ulogic;
-    adc_sdo    : in    std_ulogic
+    adc_convst : inout std_logic;
+    adc_sck    : out   std_logic;
+    adc_sdi    : out   std_logic;
+    adc_sdo    : in    std_logic
   );
 end entity de10nano_top;
 
@@ -251,7 +251,10 @@ architecture de10nano_arch of de10nano_top is
       adc_sclk                        : out   std_logic;
       adc_cs_n                        : out   std_logic;
       adc_dout                        : in    std_logic;
-      adc_din                         : out   std_logic
+      adc_din                         : out   std_logic;
+		motor_interface_encoder_input   : in    std_logic_vector(1 downto 0)  := (others => '0'); -- motor_interface.encoder_input
+		motor_interface_pwm_output      : out   std_logic;                                        --                .pwm_output
+		motor_interface_pwm_direction   : out   std_logic                                        --                .pwm_direction
     );
   end component soc_system;
 
@@ -348,6 +351,11 @@ begin
       adc_cs_n => adc_convst,
       adc_dout => adc_sdo,
       adc_din  => adc_sdi,
+		
+		-- Motor Interface
+		motor_interface_encoder_input => gpio_1(1 downto 0),
+		motor_interface_pwm_output    => gpio_1(2),
+		motor_interface_pwm_direction => gpio_1(3),    
 
       -- Fabric clock and reset
       clk_clk       => fpga_clk1_50,

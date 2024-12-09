@@ -66,9 +66,8 @@ begin
   avalon_register_write : process (clk, reset)
   begin
     if reset = '1' then
-      pwm_period     <= "00000001000000000000000000000000";
-      duty_cycle     <= "00000000000000000000000000000000";
-      encoder_counts <= 0;
+      pwm_period <= "00000001000000000000000000000000";
+      duty_cycle <= "00000000000000000000000000000000";
     elsif rising_edge(clk) and avs_write = '1' then
       case avs_address is
         when "00" =>
@@ -76,10 +75,9 @@ begin
         when "01" =>
           duty_cycle    <= avs_writedata;
           pwm_direction <= avs_writedata(31);
-        when "10" =>
-          encoder_counts <= to_integer(unsigned(avs_writedata));
         when others =>
           null;
+
       end case;
     end if;
   end process avalon_register_write;
