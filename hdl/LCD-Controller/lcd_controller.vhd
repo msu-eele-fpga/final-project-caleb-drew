@@ -1,12 +1,12 @@
-/*
-* EELE - 467 Final project
-* Montana State University Fall 2024
-* Created 12/7/24 Drew Currie
-* License : GPL
-* This code will create a 10 bit register to interface
-* with the 16x2 LCD Module 1602A - 1.
-*
-*/ --
+--
+-- EELE - 467 Final project
+-- Montana State University Fall 2024
+-- Created 12/7/24 Drew Currie
+-- License : GPL
+-- This code will create a 10 bit register to interface
+-- with the 16x2 LCD Module 1602A - 1.
+--
+--
 
 library ieee;
 use ieee.std_logic_1164.all;
@@ -53,18 +53,18 @@ architecture lcd_arch of lcd_controller is
   --Timing specs in the datasheet for the LCD are all in ms 
   --Converting clock cycles to ms for convince
   constant CLOCK_PULSE_PER_MS : integer := 1 ms / CLK_PERIOD;
-  /*
-  * in general it will take 0.037 ms per instruction.
-  * The clear and return home take 1.52 ms per instruction
-  * Declaring some constants to calculate this based on the clock input
-  */ --
+
+  -- in general it will take 0.037 ms per instruction.
+  -- The clear and return home take 1.52 ms per instruction
+  -- Declaring some constants to calculate this based on the clock input
+  --
   constant SHORT_INSTRUCTION_DELAY : integer := 185000;
   constant LONG_INSTRUCTION_DELAY  : integer := 76000000;
   signal delay_time                : integer := SHORT_INSTRUCTION_DELAY;
 
-  /* Need a second clock divider for an enable latch system
-  * Timing is 100 ns per write to the LCD
-  */ --
+  -- Need a second clock divider for an enable latch system
+  -- Timing is 100 ns per write to the LCD
+  --
   constant ENABLE_LATCH_TIME : integer := 5;
   signal enable_latch_delay  : boolean;
   signal done_latch          : boolean;
