@@ -11,114 +11,87 @@
 #define GREEN_DUTY_CYCLE_OFFSET 0x08
 #define BLUE_DUTY_CYCLE_OFFSET 0X0C
 
+#define CHANNEL_0_OFFSET 0x0
+#define CHANNEL_1_OFFSET 0X4
+#define CHANNEL_2_OFFSET 0x8
+
+#define MAX_DUTY_CYCLE 0x40000
+#define MAX_ADC_READING 0xFFF
+
 int main()
 {
-    FILE *file;
+    FILE *adc;
+    FILE *rgb_controller;
     size_t ret;
     uint32_t val;
 
-    file = fopen("/dev/rgb_controller", "rb+");
-    if (file == NULL)
+    uint32_t red_raw = 0;
+    uint32_t blue_raw = 0;
+    uint32_t green_raw = 0;
+
+    float red_duty_cycle = 0;
+    float green_duty_cycle = 0;
+    float blue_duty_cycle = 0;
+
+    uint32_t red_duty_cycle_int = 0;
+    uint32_t green_duty_cycle_int = 0;
+    uint32_t blue_duty_cycle_int = 0;
+
+
+    adc = fopen("/dev/adc", "rb+");
+    if (adc == NULL)
     {
         printf("failed to open file\n");
         exit(1);
     }
 
-    // Test reading the registers sequentially
-    printf("\n************************************\n*");
-    printf("* read initial register values\n");
-    printf("************************************\n\n");
+    rgb_controller = fopen("/dev/rgb_controller", "rb+");
+    if (rgb_controller == NULL)
+    {
+        printf("failed to open file\n");
+        exit(1);
+    }
 
-    ret = fread(&val, 4, 1, file);
-    printf("HPS_LED_control = 0x%x\n", val);
+   
+   // -- Get Raw ADC Values
+    ret = fread(&red_raw, 4, 1, adc);
 
-    ret = fread(&val, 4, 1, file);
-    printf("base period = 0x%x\n", val);
+    ret = fread(&green_raw, 4, 1, adc);
+    //printf("Channel 2 = 0x%x\n", green_raw);
 
-    ret = fread(&val, 4, 1, file);
-    printf("LED_reg = 0x%x\n", val);
+    ret = fread(&blue_raw, 4, 1, adc);
+    //printf("Channel 3 = 0x%x\n", blue_raw);
 
-    // Reset file position to 0
-    ret = fseek(file, 0, SEEK_SET);
-    printf("fseek ret = %d\n", ret);
-    printf("errno =%s\n", strerror(errno));
 
-    printf("\n************************************\n*");
-    printf("* write values\n");
-    printf("************************************\n\n");
-    // Turn on software-control mode
-    val = 0x01;
-    ret = fseek(file, GLOBAL_PERIOD_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    // We need to "flush" so the OS finishes writing to the file before our code continues.
-    fflush(file);
+    // -- Calculate Duty Cycle Percentage
+    red_duty_cycle = (float) red_raw / MAX_ADC_READING;
+    green_duty_cycle = (float) green_raw / MAX_ADC_READING;
+    blue_duty_cycle = (float) blue_raw / MAX_ADC_READING;
 
-    // Write some values to the LEDs
-    printf("writing patterns to LEDs....\n");
-    val = 0x55;
-    ret = fseek(file, GREEN_DUTY_CYCLE_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    fflush(file);
+    // -- Convert to integer for Harware Computation
+    red_duty_cycle_int =  (uint32_t)(red_duty_cycle * MAX_DUTY_CYCLE);
+    green_duty_cycle_int = (uint32_t) (green_duty_cycle * MAX_DUTY_CYCLE);
+    blue_duty_cycle_int = (uint32_t) (blue_duty_cycle * MAX_DUTY_CYCLE);
 
+
+    // -- Write Values to pwmgen file
+    ret = fseek(rgb_controller, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
+    ret = fwrite(&red_duty_cycle_int, 4, 1, rgb_controller);
+    fflush(rgb_controller);
     sleep(1);
 
-    val = 0xaa;
-    ret = fseek(file, GREEN_DUTY_CYCLE_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    fflush(file);
-
+    ret = fseek(rgb_controller, GREEN_DUTY_CYCLE_OFFSET, SEEK_SET);
+    ret = fwrite(&green_duty_cycle_int, 4, 1, rgb_controller);
+    fflush(rgb_controller);
     sleep(1);
 
-    val = 0xff;
-    ret = fseek(file, GREEN_DUTY_CYCLE_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    fflush(file);
-
-    usleep(0.5e6);
-
-    val = 0x00;
-    ret = fseek(file, GREEN_DUTY_CYCLE_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    fflush(file);
-
+    ret = fseek(rgb_controller, BLUE_DUTY_CYCLE_OFFSET, SEEK_SET);
+    ret = fwrite(&blue_duty_cycle_int, 4, 1, rgb_controller);
+    fflush(rgb_controller);
     sleep(1);
 
-    // Turn on hardware-control mode
-    printf("back to hardware-control mode....\n");
-    val = 0x00;
-    ret = fseek(file, GLOBAL_PERIOD_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    fflush(file);
-
-    val = 0x12;
-    ret = fseek(file, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    fflush(file);
-
-    sleep(5);
-
-    // Speed up the base period!
-    val = 0x02;
-    ret = fseek(file, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
-    ret = fwrite(&val, 4, 1, file);
-    fflush(file);
-
-    printf("\n************************************\n*");
-    printf("* read new register values\n");
-    printf("************************************\n\n");
-
-    // Reset file position to 0
-    ret = fseek(file, 0, SEEK_SET);
-
-    ret = fread(&val, 4, 1, file);
-    printf("HPS_LED_control = 0x%x\n", val);
-
-    ret = fread(&val, 4, 1, file);
-    printf("base period = 0x%x\n", val);
-
-    ret = fread(&val, 4, 1, file);
-    printf("LED_reg = 0x%x\n", val);
-
-    fclose(file);
+    //-- Close Files
+    fclose(adc);
+    fclose(rgb_controller);
     return 0;
 }
