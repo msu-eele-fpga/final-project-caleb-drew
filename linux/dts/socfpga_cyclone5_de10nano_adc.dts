@@ -1,9 +1,9 @@
 #include "socfpga_cyclone5_de10nano.dtsi"
 
 /{
-    de10nano_adc: adc@ff20020{
+    de10nano_adc: de10nano_adc@ff20020{
         compatible = "Binfet,de10nano_adc";
-        reg = <0xff200000 40>;
+        reg = <0xff200020 32>;
     };
 
 };
