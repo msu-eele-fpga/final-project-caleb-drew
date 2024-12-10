@@ -5,5 +5,10 @@
         compatible = "Binfet,rgb_controller";
         reg = <0xff200000 20>;
     };
+    
+    de10nano_adc: de10nano_adc@ff200020{
+        compatible = "Binfet,de10nano_adc";
+        reg = <0xff200020 32>;
+    };
 
 };
