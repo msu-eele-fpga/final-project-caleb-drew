@@ -254,7 +254,10 @@ architecture de10nano_arch of de10nano_top is
       adc_din                         : out   std_logic;
 		motor_interface_encoder_input   : in    std_logic_vector(1 downto 0)  := (others => '0'); -- motor_interface.encoder_input
 		motor_interface_pwm_output      : out   std_logic;                                        --                .pwm_output
-		motor_interface_pwm_direction   : out   std_logic                                        --                .pwm_direction
+		motor_interface_pwm_direction   : out   std_logic;                                        --                .pwm_direction
+		rgb_controller_red_output       : out   std_logic;                                        --  rgb_controller.red_output
+		rgb_controller_green_output     : out   std_logic;                                        --                .green_output
+		rgb_controller_blue_output      : out   std_logic                                         --                .blue_output
     );
   end component soc_system;
 
@@ -355,7 +358,12 @@ begin
 		-- Motor Interface
 		motor_interface_encoder_input => gpio_1(1 downto 0),
 		motor_interface_pwm_output    => gpio_1(2),
-		motor_interface_pwm_direction => gpio_1(3),    
+		motor_interface_pwm_direction => gpio_1(3),
+
+		--RGB Controller
+		rgb_controller_red_output     => gpio_0(0),
+		rgb_controller_green_output   => gpio_0(1),
+		rgb_controller_blue_output    => gpio_0(2),
 
       -- Fabric clock and reset
       clk_clk       => fpga_clk1_50,

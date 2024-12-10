@@ -75,6 +75,22 @@
          type = "int";
       }
    }
+   element motor_interface_0.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "16";
+         type = "String";
+      }
+   }
+   element rgb_controller_0
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
    element soc_system
    {
       datum _originalDeviceFamily
@@ -423,6 +439,11 @@
    type="conduit"
    dir="end" />
  <interface name="reset" internal="fpga_clk.clk_in_reset" type="reset" dir="end" />
+ <interface
+   name="rgb_controller"
+   internal="rgb_controller_0.export"
+   type="conduit"
+   dir="end" />
  <module name="adc" kind="altera_up_avalon_adc" version="18.0" enabled="1">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="12500000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
@@ -1189,6 +1210,11 @@
    kind="motor_interface"
    version="1.0"
    enabled="1" />
+ <module
+   name="rgb_controller_0"
+   kind="rgb_controller"
+   version="1.0"
+   enabled="1" />
  <connection
    kind="avalon"
    version="21.1"
@@ -1203,6 +1229,15 @@
    version="21.1"
    start="hps.h2f_lw_axi_master"
    end="motor_interface_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0010" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="21.1"
+   start="hps.h2f_lw_axi_master"
+   end="rgb_controller_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
@@ -1221,6 +1256,15 @@
    version="21.1"
    start="jtag_master.master"
    end="motor_interface_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0010" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="21.1"
+   start="jtag_master.master"
+   end="rgb_controller_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
@@ -1235,6 +1279,11 @@
    version="21.1"
    start="fpga_clk.clk"
    end="motor_interface_0.clk" />
+ <connection
+   kind="clock"
+   version="21.1"
+   start="fpga_clk.clk"
+   end="rgb_controller_0.clk" />
  <connection
    kind="clock"
    version="21.1"
@@ -1265,8 +1314,18 @@
  <connection
    kind="reset"
    version="21.1"
+   start="fpga_clk.clk_reset"
+   end="rgb_controller_0.rst" />
+ <connection
+   kind="reset"
+   version="21.1"
    start="hps.h2f_reset"
    end="motor_interface_0.reset" />
+ <connection
+   kind="reset"
+   version="21.1"
+   start="hps.h2f_reset"
+   end="rgb_controller_0.rst" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
 </system>

@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-entity led_patterns_avalon is
+entity rgb_controller is
   port (
     clk : in std_ulogic;
     rst : in std_ulogic;
@@ -16,9 +16,9 @@ entity led_patterns_avalon is
     green_output : out std_logic := '0';
     blue_output  : out std_logic := '0'
   );
-end entity led_patterns_avalon;
+end entity rgb_controller;
 
-architecture led_patterns_avalon_arch of led_patterns_avalon is
+architecture rgb_controller_arch of rgb_controller is
   signal global_period          : unsigned(31 downto 0)         := "00000001000000000000000000000000"; -- default to 1ms
   signal red_duty_cycle         : std_logic_vector(31 downto 0) := "00000000000000000000000000000000";
   signal green_duty_cycle       : std_logic_vector(31 downto 0) := "00000000000000000000000000000000";
