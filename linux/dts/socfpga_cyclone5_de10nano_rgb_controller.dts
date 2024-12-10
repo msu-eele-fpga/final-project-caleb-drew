@@ -1,0 +1,9 @@
+#include "socfpga_cyclone5_de10nano.dtsi"
+
+/{
+    rgb_controller: rgb_controller@ff20000{
+        compatible = "Binfet,rgb_controller";
+        reg = <0xff200000 20>;
+    };
+
+};
