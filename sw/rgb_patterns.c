@@ -57,18 +57,15 @@ int main()
     ret = fread(&red_raw, 4, 1, adc);
 
     ret = fread(&green_raw, 4, 1, adc);
-    //printf("Channel 2 = 0x%x\n", green_raw);
 
     ret = fread(&blue_raw, 4, 1, adc);
-    //printf("Channel 3 = 0x%x\n", blue_raw);
-
 
     // -- Calculate Duty Cycle Percentage
     red_duty_cycle = (float) red_raw / MAX_ADC_READING;
     green_duty_cycle = (float) green_raw / MAX_ADC_READING;
     blue_duty_cycle = (float) blue_raw / MAX_ADC_READING;
 
-    // -- Convert to integer for Harware Computation
+    // -- Convert to integer for Hardware Computation
     red_duty_cycle_int =  (uint32_t)(red_duty_cycle * MAX_DUTY_CYCLE);
     green_duty_cycle_int = (uint32_t) (green_duty_cycle * MAX_DUTY_CYCLE);
     blue_duty_cycle_int = (uint32_t) (blue_duty_cycle * MAX_DUTY_CYCLE);
