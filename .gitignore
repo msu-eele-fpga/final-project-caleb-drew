@@ -123,3 +123,6 @@ quartus/LCD-Passthrough/lcd-passthrough.qpf
 quartus/LCD-Passthrough/lcd-passthrough.qsf
 quartus/soc_system.qsys
 
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json
