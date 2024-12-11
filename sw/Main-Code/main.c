@@ -39,7 +39,7 @@ int main()
         uint32_t lcd_write = 0;
         uint32_t lcd_function_set = 0x0000003F;
         uint32_t lcd_on = 0x0000000F;
-        uint32_t lcd_test_char = 0x00000041;
+        uint32_t lcd_test_char = 0x00000141;
         size_t ret;
         uint32_t val;
 
