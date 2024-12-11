@@ -99,7 +99,7 @@ int main()
                 red_duty_cycle_int = (uint32_t)(red_duty_cycle * MAX_DUTY_CYCLE);
                 green_duty_cycle_int = (uint32_t)(green_duty_cycle * MAX_DUTY_CYCLE);
                 blue_duty_cycle_int = (uint32_t)(blue_duty_cycle * MAX_DUTY_CYCLE);
-                printf("RGB Duty Cycle Values: %f, %f, %f\n\r", red_duty_cycle, green_duty_cycle, blue_duty_cycle);
+                printf("RGB Duty Cycle Values: %d, %d, %d\n\r", red_duty_cycle_int, green_duty_cycle_int, blue_duty_cycle_int);
                 // -- Write Values to pwmgen file
                 ret = fseek(rgb_controller, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&red_duty_cycle_int, 4, 1, rgb_controller);
@@ -118,7 +118,7 @@ int main()
 
                 //---LCD Tests
                 ret = fread(&lcd_write, 4, 1, lcd_controller);
-                printf("LCD Value: %d", lcd_write);
+                printf("LCD Value: %d\n", lcd_write);
 
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
         }
