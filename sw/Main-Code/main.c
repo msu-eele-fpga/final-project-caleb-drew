@@ -84,8 +84,11 @@ int main()
         }
         // init lcd
         ret = fwrite(&lcd_function_set, 4, 1, lcd_controller);
-        sleep(0.125);
+        fflush(lcd_controller);
+        sleep(0.5);
         ret = fwrite(&lcd_on, 4, 1, lcd_controller);
+        fflush(lcd_controller);
+        sleep(0.5);
 
         // Good ol' infinite while loop
         while (1)
@@ -119,10 +122,11 @@ int main()
                 ret = fseek(rgb_controller, BLUE_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&blue_duty_cycle_int, 4, 1, rgb_controller);
                 fflush(rgb_controller);
-                sleep(0.25);
+                sleep(0.5);
 
                 //---LCD Tests
                 ret = fwrite(&lcd_test_char, 4, 1, lcd_controller);
+                fflush(lcd_controller);
 
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
         }
