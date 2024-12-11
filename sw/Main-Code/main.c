@@ -17,7 +17,7 @@
 #define CHANNEL_2_OFFSET 0x8
 
 // LCD Offsets
-#define LCD_OUT_OFFSERT 0x0
+#define LCD_OUT_OFFSET 0x0
 
 // Motor Controller offsets
 #define PEROID_OFFSET 0x0
@@ -35,6 +35,7 @@ int main()
         FILE *lcd_controller;
         FILE *motor_interface;
 
+        uint32_t lcd_write = 0;
         size_t ret;
         uint32_t val;
 
@@ -85,10 +86,11 @@ int main()
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
                 // -- Get Raw ADC Values
                 ret = fread(&red_raw, 4, 1, adc);
-
+                ret = fseek(adc, 0, SEEK_SET);
                 ret = fread(&green_raw, 4, 1, adc);
-
+                ret = fseek(adc, 0, SEEK_SET);
                 ret = fread(&blue_raw, 4, 1, adc);
+                ret = fseek(adc, 0, SEEK_SET);
 
                 // -- Calculate Duty Cycle Percentage
                 red_duty_cycle = (float)red_raw / MAX_ADC_READING;
@@ -115,6 +117,9 @@ int main()
                 ret = fwrite(&blue_duty_cycle_int, 4, 1, rgb_controller);
                 fflush(rgb_controller);
                 sleep(1);
+
+                //---LCD Tests
+                ret = fread(&lcd_write, 4, 1, lcd_controller);
 
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
         }
