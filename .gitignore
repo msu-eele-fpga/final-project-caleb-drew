@@ -126,3 +126,4 @@ quartus/soc_system.qsys
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/settings.json
+linux/linux-socfpga
