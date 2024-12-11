@@ -1,11 +1,27 @@
 #include "socfpga_cyclone5_de10nano.dtsi"
 
 /{
+    //16x2 LCD connected to GPIO_0[25] through GPIO_0[26]
+    lcd_display: lcd_passthrough@ff200040{
+        compatible = "Binfet,lcd_passthrough";
+        reg = <0xff200040 4>;
+        };
+
+    //DC motor 
+    motor_interface: motor_interface@ff200010{
+        compatible = "Currie,motor_interface";
+        reg = <0xff200010 12>;
+        };
+    
+    //Hardware RGB controller
+    //Connected to pins GPIO_0[0] through GPIO_0[2]
     rgb_controller: rgb_controller@ff20000{
         compatible = "Binfet,rgb_controller";
-        reg = <0xff200000 20>;
+        reg = <0xff200000 16>;
     };
-    
+
+    //Hardware Analog to Digital Converter
+    //Connected to ADC pins of the DE10nano board
     de10nano_adc: de10nano_adc@ff200020{
         compatible = "Binfet,de10nano_adc";
         reg = <0xff200020 32>;
