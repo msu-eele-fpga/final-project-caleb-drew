@@ -1,7 +1,9 @@
 #VSCode .history
 .history
 .history/*
-
+#VSCode configuration to prevent cross OS issures
+.vscode
+.vscode/*
 # Prerequisites
 *.d
 
