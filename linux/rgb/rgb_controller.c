@@ -12,7 +12,7 @@
 #define RED_DUTY_CYCLE_OFFSET 4
 #define GREEN_DUTY_CYCLE_OFFSET 8
 #define BLUE_DUTY_CYCLE_OFFSET 12
-#define SPAN 20
+#define SPAN 16
 
 /**
  * struct rgb_controller_dev - Private rgb controller device struct.
