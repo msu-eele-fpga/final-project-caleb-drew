@@ -3,7 +3,7 @@
 /{
     //16x2 LCD connected to GPIO_0[25] through GPIO_0[26]
     lcd_controller: lcd_controller@ff200040{
-        compatible = "Binfet,lcd_controller";
+        compatible = "Binfet,lcd_passthrough";
         reg = <0xff200040 4>;
         };
 
