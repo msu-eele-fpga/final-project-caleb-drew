@@ -15,6 +15,7 @@
 #define CHANNEL_0_OFFSET 0x0
 #define CHANNEL_1_OFFSET 0X4
 #define CHANNEL_2_OFFSET 0x8
+#define CHANNEL_4_OFFSET 0x10
 
 // LCD Offsets
 #define LCD_OUT_OFFSET 0x0
@@ -45,14 +46,17 @@ int main()
         uint32_t red_raw = 0;
         uint32_t blue_raw = 0;
         uint32_t green_raw = 0;
+        uint32_t motor_raw = 0;
 
         float red_duty_cycle = 0;
         float green_duty_cycle = 0;
         float blue_duty_cycle = 0;
+        float motor_duty_cycle = 0;
 
         uint32_t red_duty_cycle_int = 0;
         uint32_t green_duty_cycle_int = 0;
         uint32_t blue_duty_cycle_int = 0;
+        uint32_t motor_duty_cycle_int = 0;
 
         // Open ADC
         adc = fopen("/dev/adc", "rb+");
@@ -98,18 +102,23 @@ int main()
                 ret = fread(&red_raw, 4, 1, adc);
                 ret = fread(&green_raw, 4, 1, adc);
                 ret = fread(&blue_raw, 4, 1, adc);
+                ret = fread(&motor_raw, 4, 1, adc);
+
                 ret = fseek(adc, 0, SEEK_SET);
 
                 // -- Calculate Duty Cycle Percentage
                 red_duty_cycle = (float)red_raw / MAX_ADC_READING;
                 green_duty_cycle = (float)green_raw / MAX_ADC_READING;
                 blue_duty_cycle = (float)blue_raw / MAX_ADC_READING;
+                motor_duty_cycle = (float)motor_raw / MAX_ADC_READING;
                 printf("RGB Values: %d, %d, %d\n\r", red_raw, green_raw, blue_raw);
                 // -- Convert to integer for Hardware Computation
                 red_duty_cycle_int = (uint32_t)(red_duty_cycle * MAX_DUTY_CYCLE);
                 green_duty_cycle_int = (uint32_t)(green_duty_cycle * MAX_DUTY_CYCLE);
                 blue_duty_cycle_int = (uint32_t)(blue_duty_cycle * MAX_DUTY_CYCLE);
+                motor_duty_cycle_int = (uint32_t)(motor_duty_cycle * MAX_DUTY_CYCLE);
                 printf("RGB Duty Cycle Values: %d, %d, %d\n\r", red_duty_cycle_int, green_duty_cycle_int, blue_duty_cycle_int);
+                printf("Motor duty cycle value: %d", motor_duty_cycle_int);
                 // -- Write Values to pwmgen file
                 ret = fseek(rgb_controller, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&red_duty_cycle_int, 4, 1, rgb_controller);
