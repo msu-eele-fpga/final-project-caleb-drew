@@ -36,6 +36,9 @@ int main()
         FILE *motor_interface;
 
         uint32_t lcd_write = 0;
+        uint32_t lcd_function_set = 0x0000003F;
+        uint32_t lcd_on = 0x0000000F;
+        uint32_t lcd_test_char = 0x00000041;
         size_t ret;
         uint32_t val;
 
@@ -79,6 +82,10 @@ int main()
                 printf("failed to open lcd_controller at /dev/motor_interface\n");
                 exit(1);
         }
+        // init lcd
+        ret = fwrite(&lcd_function_set, 4, 1, lcd_controller);
+        sleep(0.125);
+        ret = fwrite(&lcd_on, 4, 1, lcd_controller);
 
         // Good ol' infinite while loop
         while (1)
@@ -115,8 +122,7 @@ int main()
                 sleep(0.25);
 
                 //---LCD Tests
-                ret = fread(&lcd_write, 4, 1, lcd_controller);
-                printf("LCD Value: %d\n", lcd_write);
+                ret = fwrite(&lcd_test_char, 4, 1, lcd_controller);
 
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
         }
