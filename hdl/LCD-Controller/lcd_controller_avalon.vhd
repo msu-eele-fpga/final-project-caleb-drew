@@ -36,7 +36,7 @@ architecture lcd_avalon_interface_arch of lcd_avalon_interface is
       write_enable    : in std_logic;
       output_register : out std_logic_vector(7 downto 0);
       rs              : out std_logic;
-      e               : out std_logic;
+      latch           : out std_logic;
       busy_flag       : out std_logic
     );
   end component;
@@ -67,7 +67,7 @@ begin
       --Outputs 
       output_register => lcd_output(7 downto 0),
       rs              => lcd_output(8),
-      e               => lcd_output(9),
+      latch           => lcd_output(9),
       busy_flag       => internal_busy_flag
     );
     --Reading from the registers 
@@ -84,22 +84,19 @@ begin
     --Writing timing control
     avalon_register_write : process (clk, internal_busy_flag)
     begin
-      if (rising_edge(clk) and avs_write = '1') then
-        if reset = '1' then
-          lcd_data_register <= "00000000000000000000000000000000";
-        else
+      if (avs_write = '1' and internal_busy_flag <= '0') then
+        write_enable                               <= '1';
+        if rising_edge(clk) then
           case(avs_address) is
             when "00" => null;
             when "01" =>
             lcd_data_register <= avs_writedata(31 downto 0);
-            write_enable      <= '1';
             when others => null;
           end case;
         end if;
-      elsif rising_edge(clk) then
-        if internal_busy_flag = '0' then
-          write_enable <= '0';
-        end if;
+      elsif (internal_busy_flag = '0' and avs_write = '0' and write_enable = '1') then
+        write_enable <= '0';
+      else
       end if;
     end process;
   end architecture lcd_avalon_interface_arch;
