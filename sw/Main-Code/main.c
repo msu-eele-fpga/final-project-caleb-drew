@@ -86,9 +86,7 @@ int main()
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
                 // -- Get Raw ADC Values
                 ret = fread(&red_raw, 4, 1, adc);
-                ret = fseek(adc, 0, SEEK_SET);
                 ret = fread(&green_raw, 4, 1, adc);
-                ret = fseek(adc, 0, SEEK_SET);
                 ret = fread(&blue_raw, 4, 1, adc);
                 ret = fseek(adc, 0, SEEK_SET);
 
@@ -120,6 +118,7 @@ int main()
 
                 //---LCD Tests
                 ret = fread(&lcd_write, 4, 1, lcd_controller);
+                printf("LCD Value: %d", lcd_write);
 
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
         }
