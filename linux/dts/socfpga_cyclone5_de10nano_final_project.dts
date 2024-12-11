@@ -1,0 +1,14 @@
+#include "socfpga_cyclone5_de10nano.dtsi"
+
+/{
+    rgb_controller: rgb_controller@ff20000{
+        compatible = "Binfet,rgb_controller";
+        reg = <0xff200000 20>;
+    };
+    
+    de10nano_adc: de10nano_adc@ff200020{
+        compatible = "Binfet,de10nano_adc";
+        reg = <0xff200020 32>;
+    };
+
+};
