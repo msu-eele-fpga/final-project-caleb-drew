@@ -104,17 +104,15 @@ int main()
                 ret = fseek(rgb_controller, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&red_duty_cycle_int, 4, 1, rgb_controller);
                 fflush(rgb_controller);
-                sleep(1);
 
                 ret = fseek(rgb_controller, GREEN_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&green_duty_cycle_int, 4, 1, rgb_controller);
                 fflush(rgb_controller);
-                sleep(1);
 
                 ret = fseek(rgb_controller, BLUE_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&blue_duty_cycle_int, 4, 1, rgb_controller);
                 fflush(rgb_controller);
-                sleep(1);
+                sleep(0.25);
 
                 //---LCD Tests
                 ret = fread(&lcd_write, 4, 1, lcd_controller);
