@@ -9,10 +9,10 @@ use work.assert_pkg.all;
 
 --Test bench package for delays
 use work.tb_pkg.all;
-entity lcd_tb is
-end entity lcd_tb;
+entity lcd_passthrough_tb is
+end entity lcd_passthrough_tb;
 
-architecture testbench of lcd_tb is
+architecture testbench of lcd_passthrough_tb is
   component lcd_passthrough is
     port (
       --Basic clock and reset input
@@ -37,9 +37,9 @@ architecture testbench of lcd_tb is
   signal instruction : std_logic_vector(9 downto 0) := (others => '0');
 
   --Outputs
-  signal write_register : std_logic_vector(7 downto 0);
-  signal rs_output      : std_logic;
-  signal latch_output   : std_logic;
+  signal lcd_out      : std_logic_vector(7 downto 0);
+  signal rs_output    : std_logic;
+  signal latch_output : std_logic;
 
 begin
   dut_lcd_controller : component lcd_passthrough
@@ -47,8 +47,9 @@ begin
       clk                        => clk_tb,
       reset                      => reset_tb,
       write_register(9 downto 0) => instruction(9 downto 0),
+      output_register            => lcd_out,
       rs                         => rs_output,
-      latch                      => latch_output,
+      latch                      => latch_output
     );
     --Create clock
     clk_tb <= not clk_tb after CLK_PERIOD/2;
@@ -60,10 +61,8 @@ begin
       print("Testing LCD maps appropriately specs");
       instruction <= "0000001111";
       wait_for_clock_edges(clk_tb, 10);
-      instruction <= "1100001111";
-      --Should be 00001111 as the output preventing new data from being added. 
+      instruction <= "1100000101";
       wait_for_clock_edges(clk_tb, 10); --Total wait time before writing the next instruction
-      reset_tb <= '1';
       std.env.finish;
     end process;
   end architecture;
