@@ -120,3 +120,5 @@ quartus/LCD-Passthrough/hps_sdram_p0_summary.csv
 quartus/LCD-Passthrough/lcd-passthrough.qpf
 quartus/LCD-Passthrough/lcd-passthrough.qsf
 quartus/soc_system.qsys
+.vscode/c_cpp_properties.json
+.vscode/settings.json
