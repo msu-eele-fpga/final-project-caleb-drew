@@ -137,6 +137,10 @@ int main()
                 ret = fseek(rgb_controller, BLUE_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&blue_duty_cycle_int, 4, 1, rgb_controller);
                 fflush(rgb_controller);
+                ret = fseek(motor_interface, DUTY_CYCLE_OFFSET, SEEK_SET);
+                ret = fwrite(&motor_duty_cycle_int, 4, 1, motor_interface);
+                fflush(motor_interface);
+
                 sleep(0.5);
 
                 //---LCD Tests
