@@ -240,7 +240,7 @@ static int lcd_controller_remove(struct platform_device *pdev)
  */
 static const struct of_device_id lcd_controller_of_match[] = {
     {
-        .compatible = "Binfet,lcd_passthrough",
+        .compatible = "Binfet,lcd_controller",
     },
     {}};
 MODULE_DEVICE_TABLE(of, lcd_controller_of_match);
