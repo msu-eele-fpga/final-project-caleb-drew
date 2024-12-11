@@ -120,7 +120,7 @@ int main()
                 blue_duty_cycle_int = (uint32_t)(blue_duty_cycle * MAX_DUTY_CYCLE);
                 motor_duty_cycle_int = (uint32_t)(motor_duty_cycle * MAX_DUTY_CYCLE);
                 printf("RGB Duty Cycle Values: %d, %d, %d\n\r", red_duty_cycle_int, green_duty_cycle_int, blue_duty_cycle_int);
-                printf("Motor duty cycle value: %d", motor_duty_cycle_int);
+                printf("Motor duty cycle value: %d\n\r", motor_duty_cycle_int);
                 // -- Write Values to pwmgen file
                 ret = fseek(rgb_controller, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&red_duty_cycle_int, 4, 1, rgb_controller);
