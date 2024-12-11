@@ -21,17 +21,15 @@ entity lcd_passthrough is
     clk   : in std_logic;
     reset : in std_logic;
     --LCD Specific inputs
-    write_register : in std_logic_vector(9 downto 0);
+    write_register : in std_logic_vector(8 downto 0);
     --LCD Specific outputs
     output_register : out std_logic_vector(7 downto 0);
-    rs              : out std_logic;
-    latch           : out std_logic
+    rs              : out std_logic
   );
 end entity;
 
 architecture lcd_arch of lcd_passthrough is
 begin
-  latch           <= write_register(9);
   rs              <= write_register(8);
   output_register <= write_register(7 downto 0);
 end architecture lcd_arch;
