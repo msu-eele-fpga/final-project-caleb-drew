@@ -111,6 +111,7 @@ int main()
         ret = fwrite(&lcd_function_set, 4, 1, lcd_controller);
         sleep(0.5);
         ret = fwrite(&lcd_on, 4, 1, lcd_controller);
+        fclose(lcd_controller);
 
         // Good ol' infinite while loop
         while (1)
