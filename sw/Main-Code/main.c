@@ -28,25 +28,6 @@
 #define MAX_DUTY_CYCLE 0x40000
 #define MAX_ADC_READING 0xFFF
 
-// Character conversion and write function
-void lcd_print(char input)
-{
-        size_t ret;
-        uint32_t buffer = 0;
-        buffer = (unsigned)input;
-        FILE *lcd_controller;
-        lcd_controller = fopen("/dev/lcd_controller", "rb+");
-        if (lcd_controller == NULL)
-        {
-                printf("failed to open lcd_controller at /dev/lcd_controller\n");
-                exit(1);
-        }
-        ret = fseek(lcd_controller, LCD_OUT_OFFSET, SEEK_SET);
-        ret = fwrite(&buffer, 4, 1, lcd_controller);
-        fflush(lcd_controller);
-        fclose(lcd_controller);
-}
-
 int main()
 {
         // Open all the relevant files
@@ -94,24 +75,27 @@ int main()
         }
         // Open LCD
         lcd_controller = fopen("/dev/lcd_controller", "rb+");
-        if (lcd_controller == NULL)
+        if (rgb_controller == NULL)
         {
                 printf("failed to open lcd_controller at /dev/lcd_controller\n");
                 exit(1);
         }
         // Open motor interface
         motor_interface = fopen("/dev/motor_interface", "rb+");
-        if (motor_interface == NULL)
+        if (rgb_controller == NULL)
         {
                 printf("failed to open lcd_controller at /dev/motor_interface\n");
                 exit(1);
         }
         // init lcd
-        sleep(0.5);
+        ret = fseek(lcd_controller, LCD_OUT_OFFSET, SEEK_SET);
         ret = fwrite(&lcd_function_set, 4, 1, lcd_controller);
+        fflush(lcd_controller);
         sleep(0.5);
+        ret = fseek(lcd_controller, LCD_OUT_OFFSET, SEEK_SET);
         ret = fwrite(&lcd_on, 4, 1, lcd_controller);
-        fclose(lcd_controller);
+        fflush(lcd_controller);
+        sleep(0.5);
 
         // Good ol' infinite while loop
         while (1)
@@ -154,6 +138,11 @@ int main()
                 ret = fwrite(&blue_duty_cycle_int, 4, 1, rgb_controller);
                 fflush(rgb_controller);
                 sleep(0.5);
+
+                //---LCD Tests
+                ret = fseek(lcd_controller, LCD_OUT_OFFSET, SEEK_SET);
+                ret = fwrite(&lcd_test_char, 4, 1, lcd_controller);
+                fflush(lcd_controller);
 
                 //--------------------- ADC RGB CONTROLLER ----------------------------------
         }
