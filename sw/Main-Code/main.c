@@ -94,12 +94,12 @@ int main()
                 red_duty_cycle = (float)red_raw / MAX_ADC_READING;
                 green_duty_cycle = (float)green_raw / MAX_ADC_READING;
                 blue_duty_cycle = (float)blue_raw / MAX_ADC_READING;
-
+                printf("RGB Values: %f, %f, %f\n\r", red_raw, green_raw, blue_raw);
                 // -- Convert to integer for Hardware Computation
                 red_duty_cycle_int = (uint32_t)(red_duty_cycle * MAX_DUTY_CYCLE);
                 green_duty_cycle_int = (uint32_t)(green_duty_cycle * MAX_DUTY_CYCLE);
                 blue_duty_cycle_int = (uint32_t)(blue_duty_cycle * MAX_DUTY_CYCLE);
-
+                printf("RGB Values: %f, %f, %f\n\r", red_duty_cycle, green_duty_cycle, blue_duty_cycle);
                 // -- Write Values to pwmgen file
                 ret = fseek(rgb_controller, RED_DUTY_CYCLE_OFFSET, SEEK_SET);
                 ret = fwrite(&red_duty_cycle_int, 4, 1, rgb_controller);
