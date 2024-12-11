@@ -1,6 +1,6 @@
 ifneq ($(KERNELRELEASE),)
 # kbuild part of makefile
-obj-m  := rgb_controller.o
+obj-m  := lcd_controller.o
 
 else
 # normal makefile
