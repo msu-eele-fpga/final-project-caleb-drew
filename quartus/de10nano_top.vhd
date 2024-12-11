@@ -11,9 +11,9 @@ entity de10nano_top is
     --  Clock inputs
     --  See DE10 Nano User Manual page 23
     ----------------------------------------
-    fpga_clk1_50 : in    std_ulogic;
-    fpga_clk2_50 : in    std_ulogic;
-    fpga_clk3_50 : in    std_ulogic;
+    fpga_clk1_50 : in std_ulogic;
+    fpga_clk2_50 : in std_ulogic;
+    fpga_clk3_50 : in std_ulogic;
 
     ----------------------------------------
     --  HDMI
@@ -25,47 +25,47 @@ entity de10nano_top is
     hdmi_lrclk   : inout std_logic;
     hdmi_mclk    : inout std_logic;
     hdmi_sclk    : inout std_logic;
-    hdmi_tx_clk  : out   std_logic;
-    hdmi_tx_d    : out   std_logic_vector(23 downto 0);
-    hdmi_tx_de   : out   std_logic;
-    hdmi_tx_hs   : out   std_logic;
-    hdmi_tx_int  : in    std_logic;
-    hdmi_tx_vs   : out   std_logic;
+    hdmi_tx_clk  : out std_logic;
+    hdmi_tx_d    : out std_logic_vector(23 downto 0);
+    hdmi_tx_de   : out std_logic;
+    hdmi_tx_hs   : out std_logic;
+    hdmi_tx_int  : in std_logic;
+    hdmi_tx_vs   : out std_logic;
 
     ----------------------------------------
     --  DDR3
     --  See DE10 Nano User Manual page 39
     ----------------------------------------
-    hps_ddr3_addr    : out   std_logic_vector(14 downto 0);
-    hps_ddr3_ba      : out   std_logic_vector(2 downto 0);
-    hps_ddr3_cas_n   : out   std_logic;
-    hps_ddr3_ck_n    : out   std_logic;
-    hps_ddr3_ck_p    : out   std_logic;
-    hps_ddr3_cke     : out   std_logic;
-    hps_ddr3_cs_n    : out   std_logic;
-    hps_ddr3_dm      : out   std_logic_vector(3 downto 0);
+    hps_ddr3_addr    : out std_logic_vector(14 downto 0);
+    hps_ddr3_ba      : out std_logic_vector(2 downto 0);
+    hps_ddr3_cas_n   : out std_logic;
+    hps_ddr3_ck_n    : out std_logic;
+    hps_ddr3_ck_p    : out std_logic;
+    hps_ddr3_cke     : out std_logic;
+    hps_ddr3_cs_n    : out std_logic;
+    hps_ddr3_dm      : out std_logic_vector(3 downto 0);
     hps_ddr3_dq      : inout std_logic_vector(31 downto 0);
     hps_ddr3_dqs_n   : inout std_logic_vector(3 downto 0);
     hps_ddr3_dqs_p   : inout std_logic_vector(3 downto 0);
-    hps_ddr3_odt     : out   std_logic;
-    hps_ddr3_ras_n   : out   std_logic;
-    hps_ddr3_reset_n : out   std_logic;
-    hps_ddr3_rzq     : in    std_logic;
-    hps_ddr3_we_n    : out   std_logic;
+    hps_ddr3_odt     : out std_logic;
+    hps_ddr3_ras_n   : out std_logic;
+    hps_ddr3_reset_n : out std_logic;
+    hps_ddr3_rzq     : in std_logic;
+    hps_ddr3_we_n    : out std_logic;
 
     ----------------------------------------
     --  Ethernet
     --  See DE10 Nano User Manual page 36
     ----------------------------------------
-    hps_enet_gtx_clk : out   std_logic;
+    hps_enet_gtx_clk : out std_logic;
     hps_enet_int_n   : inout std_logic;
-    hps_enet_mdc     : out   std_logic;
+    hps_enet_mdc     : out std_logic;
     hps_enet_mdio    : inout std_logic;
-    hps_enet_rx_clk  : in    std_logic;
-    hps_enet_rx_data : in    std_logic_vector(3 downto 0);
-    hps_enet_rx_dv   : in    std_logic;
-    hps_enet_tx_data : out   std_logic_vector(3 downto 0);
-    hps_enet_tx_en   : out   std_logic;
+    hps_enet_rx_clk  : in std_logic;
+    hps_enet_rx_data : in std_logic_vector(3 downto 0);
+    hps_enet_rx_dv   : in std_logic;
+    hps_enet_tx_data : out std_logic_vector(3 downto 0);
+    hps_enet_tx_en   : out std_logic;
 
     ----------------------------------------
     --  HPS i2c
@@ -85,7 +85,7 @@ entity de10nano_top is
     --  HPS SD card
     --  See DE10 Nano User Manual page 42
     ----------------------------------------
-    hps_sd_clk  : out   std_logic;
+    hps_sd_clk  : out std_logic;
     hps_sd_cmd  : inout std_logic;
     hps_sd_data : inout std_logic_vector(3 downto 0);
 
@@ -93,19 +93,19 @@ entity de10nano_top is
     --  HPS UART
     --  See DE10 Nano User Manual page 38
     ----------------------------------------
-    hps_uart_rx    : in    std_logic;
-    hps_uart_tx    : out   std_logic;
+    hps_uart_rx    : in std_logic;
+    hps_uart_tx    : out std_logic;
     hps_conv_usb_n : inout std_logic;
 
     ----------------------------------------
     --  HPS USB OTG
     --  See DE10 Nano User Manual page 43
     ----------------------------------------
-    hps_usb_clkout : in    std_logic;
+    hps_usb_clkout : in std_logic;
     hps_usb_data   : inout std_logic_vector(7 downto 0);
-    hps_usb_dir    : in    std_logic;
-    hps_usb_nxt    : in    std_logic;
-    hps_usb_stp    : out   std_logic;
+    hps_usb_dir    : in std_logic;
+    hps_usb_nxt    : in std_logic;
+    hps_usb_stp    : out std_logic;
 
     ----------------------------------------
     --  HPS accelerometer
@@ -120,9 +120,9 @@ entity de10nano_top is
     --  See DE10 Nano User Manual page 45
     ----------------------------------------
     hps_ltc_gpio  : inout std_logic;
-    hps_spim_clk  : out   std_logic;
-    hps_spim_miso : in    std_logic;
-    hps_spim_mosi : out   std_logic;
+    hps_spim_clk  : out std_logic;
+    hps_spim_miso : in std_logic;
+    hps_spim_mosi : out std_logic;
     hps_spim_ss   : inout std_logic;
 
     ----------------------------------------
@@ -132,7 +132,7 @@ entity de10nano_top is
     --  when pressed (asserted)
     --  and produce a '1' in the rest (non-pushed) state
     ----------------------------------------
-    push_button_n : in    std_ulogic_vector(1 downto 0);
+    push_button_n : in std_ulogic_vector(1 downto 0);
 
     ----------------------------------------
     --  Slide switch inputs (SW)
@@ -141,14 +141,14 @@ entity de10nano_top is
     --  in the down position
     --  (towards the edge of the board)
     ----------------------------------------
-    sw : in    std_ulogic_vector(3 downto 0);
+    sw : in std_ulogic_vector(3 downto 0);
 
     ----------------------------------------
     --  LED outputs
     --  See DE10 Nano User Manual page 26
     --  Setting LED to 1 will turn it on
     ----------------------------------------
-    led : out   std_ulogic_vector(7 downto 0);
+    led : out std_ulogic_vector(7 downto 0);
 
     ----------------------------------------
     --  GPIO expansion headers (40-pin)
@@ -157,7 +157,7 @@ entity de10nano_top is
     --  Pin 29 = 3.3 supply (1.5A max)
     --  Pins 12, 30 = GND
     ----------------------------------------
-    gpio_0 : inout std_ulogic_vector(35 downto 0);
+    gpio_0 : inout std_logic_vector(35 downto 0);
     gpio_1 : inout std_ulogic_vector(35 downto 0);
 
     ----------------------------------------
@@ -172,9 +172,9 @@ entity de10nano_top is
     --  See DE10 Nano User Manual page 32
     ----------------------------------------
     adc_convst : inout std_ulogic;
-    adc_sck    : out   std_ulogic;
-    adc_sdi    : out   std_ulogic;
-    adc_sdo    : in    std_ulogic
+    adc_sck    : out std_ulogic;
+    adc_sdi    : out std_ulogic;
+    adc_sdo    : in std_ulogic
   );
 end entity de10nano_top;
 
@@ -182,24 +182,24 @@ architecture de10nano_arch of de10nano_top is
 
   component soc_system is
     port (
-      hps_io_hps_io_emac1_inst_tx_clk : out   std_logic;
-      hps_io_hps_io_emac1_inst_txd0   : out   std_logic;
-      hps_io_hps_io_emac1_inst_txd1   : out   std_logic;
-      hps_io_hps_io_emac1_inst_txd2   : out   std_logic;
-      hps_io_hps_io_emac1_inst_txd3   : out   std_logic;
-      hps_io_hps_io_emac1_inst_rxd0   : in    std_logic;
+      hps_io_hps_io_emac1_inst_tx_clk : out std_logic;
+      hps_io_hps_io_emac1_inst_txd0   : out std_logic;
+      hps_io_hps_io_emac1_inst_txd1   : out std_logic;
+      hps_io_hps_io_emac1_inst_txd2   : out std_logic;
+      hps_io_hps_io_emac1_inst_txd3   : out std_logic;
+      hps_io_hps_io_emac1_inst_rxd0   : in std_logic;
       hps_io_hps_io_emac1_inst_mdio   : inout std_logic;
-      hps_io_hps_io_emac1_inst_mdc    : out   std_logic;
-      hps_io_hps_io_emac1_inst_rx_ctl : in    std_logic;
-      hps_io_hps_io_emac1_inst_tx_ctl : out   std_logic;
-      hps_io_hps_io_emac1_inst_rx_clk : in    std_logic;
-      hps_io_hps_io_emac1_inst_rxd1   : in    std_logic;
-      hps_io_hps_io_emac1_inst_rxd2   : in    std_logic;
-      hps_io_hps_io_emac1_inst_rxd3   : in    std_logic;
+      hps_io_hps_io_emac1_inst_mdc    : out std_logic;
+      hps_io_hps_io_emac1_inst_rx_ctl : in std_logic;
+      hps_io_hps_io_emac1_inst_tx_ctl : out std_logic;
+      hps_io_hps_io_emac1_inst_rx_clk : in std_logic;
+      hps_io_hps_io_emac1_inst_rxd1   : in std_logic;
+      hps_io_hps_io_emac1_inst_rxd2   : in std_logic;
+      hps_io_hps_io_emac1_inst_rxd3   : in std_logic;
       hps_io_hps_io_sdio_inst_cmd     : inout std_logic;
       hps_io_hps_io_sdio_inst_d0      : inout std_logic;
       hps_io_hps_io_sdio_inst_d1      : inout std_logic;
-      hps_io_hps_io_sdio_inst_clk     : out   std_logic;
+      hps_io_hps_io_sdio_inst_clk     : out std_logic;
       hps_io_hps_io_sdio_inst_d2      : inout std_logic;
       hps_io_hps_io_sdio_inst_d3      : inout std_logic;
       hps_io_hps_io_usb1_inst_d0      : inout std_logic;
@@ -210,16 +210,16 @@ architecture de10nano_arch of de10nano_top is
       hps_io_hps_io_usb1_inst_d5      : inout std_logic;
       hps_io_hps_io_usb1_inst_d6      : inout std_logic;
       hps_io_hps_io_usb1_inst_d7      : inout std_logic;
-      hps_io_hps_io_usb1_inst_clk     : in    std_logic;
-      hps_io_hps_io_usb1_inst_stp     : out   std_logic;
-      hps_io_hps_io_usb1_inst_dir     : in    std_logic;
-      hps_io_hps_io_usb1_inst_nxt     : in    std_logic;
-      hps_io_hps_io_spim1_inst_clk    : out   std_logic;
-      hps_io_hps_io_spim1_inst_mosi   : out   std_logic;
-      hps_io_hps_io_spim1_inst_miso   : in    std_logic;
-      hps_io_hps_io_spim1_inst_ss0    : out   std_logic;
-      hps_io_hps_io_uart0_inst_rx     : in    std_logic;
-      hps_io_hps_io_uart0_inst_tx     : out   std_logic;
+      hps_io_hps_io_usb1_inst_clk     : in std_logic;
+      hps_io_hps_io_usb1_inst_stp     : out std_logic;
+      hps_io_hps_io_usb1_inst_dir     : in std_logic;
+      hps_io_hps_io_usb1_inst_nxt     : in std_logic;
+      hps_io_hps_io_spim1_inst_clk    : out std_logic;
+      hps_io_hps_io_spim1_inst_mosi   : out std_logic;
+      hps_io_hps_io_spim1_inst_miso   : in std_logic;
+      hps_io_hps_io_spim1_inst_ss0    : out std_logic;
+      hps_io_hps_io_uart0_inst_rx     : in std_logic;
+      hps_io_hps_io_uart0_inst_tx     : out std_logic;
       hps_io_hps_io_i2c0_inst_sda     : inout std_logic;
       hps_io_hps_io_i2c0_inst_scl     : inout std_logic;
       hps_io_hps_io_i2c1_inst_sda     : inout std_logic;
@@ -230,39 +230,43 @@ architecture de10nano_arch of de10nano_top is
       hps_io_hps_io_gpio_inst_gpio53  : inout std_logic;
       hps_io_hps_io_gpio_inst_gpio54  : inout std_logic;
       hps_io_hps_io_gpio_inst_gpio61  : inout std_logic;
-      memory_mem_a                    : out   std_logic_vector(14 downto 0);
-      memory_mem_ba                   : out   std_logic_vector(2 downto 0);
-      memory_mem_ck                   : out   std_logic;
-      memory_mem_ck_n                 : out   std_logic;
-      memory_mem_cke                  : out   std_logic;
-      memory_mem_cs_n                 : out   std_logic;
-      memory_mem_ras_n                : out   std_logic;
-      memory_mem_cas_n                : out   std_logic;
-      memory_mem_we_n                 : out   std_logic;
-      memory_mem_reset_n              : out   std_logic;
+      memory_mem_a                    : out std_logic_vector(14 downto 0);
+      memory_mem_ba                   : out std_logic_vector(2 downto 0);
+      memory_mem_ck                   : out std_logic;
+      memory_mem_ck_n                 : out std_logic;
+      memory_mem_cke                  : out std_logic;
+      memory_mem_cs_n                 : out std_logic;
+      memory_mem_ras_n                : out std_logic;
+      memory_mem_cas_n                : out std_logic;
+      memory_mem_we_n                 : out std_logic;
+      memory_mem_reset_n              : out std_logic;
       memory_mem_dq                   : inout std_logic_vector(31 downto 0);
       memory_mem_dqs                  : inout std_logic_vector(3 downto 0);
       memory_mem_dqs_n                : inout std_logic_vector(3 downto 0);
-      memory_mem_odt                  : out   std_logic;
-      memory_mem_dm                   : out   std_logic_vector(3 downto 0);
-      memory_oct_rzqin                : in    std_logic;
-      clk_clk                         : in    std_logic;
-      reset_reset_n                   : in    std_logic;
-      adc_sclk                        : out   std_logic;
-      adc_cs_n                        : out   std_logic;
-      adc_dout                        : in    std_logic;
-      adc_din                         : out   std_logic
+      memory_mem_odt                  : out std_logic;
+      memory_mem_dm                   : out std_logic_vector(3 downto 0);
+      memory_oct_rzqin                : in std_logic;
+      clk_clk                         : in std_logic;
+      reset_reset_n                   : in std_logic;
+      adc_sclk                        : out std_logic;
+      adc_cs_n                        : out std_logic;
+      adc_dout                        : in std_logic;
+      adc_din                         : out std_logic;
+      --LCD Addons
+      lcd_output_signals_readdata : out std_logic_vector(9 downto 0)
+
     );
   end component soc_system;
 
-  signal rst_n : std_ulogic;
+  signal rst_n         : std_ulogic;
+  signal LCD_Data_Pins : std_logic_vector(9 downto 0);
 
 begin
 
   rst_n <= push_button_n(0);
 
   u0 : component soc_system
-    port map (
+    port map(
       -- ethernet
       hps_io_hps_io_emac1_inst_tx_clk => hps_enet_gtx_clk,
       hps_io_hps_io_emac1_inst_txd0   => hps_enet_tx_data(0),
@@ -351,7 +355,11 @@ begin
 
       -- Fabric clock and reset
       clk_clk       => fpga_clk1_50,
-      reset_reset_n => rst_n
+      reset_reset_n => rst_n,
+      --LCD Outputs
+      lcd_output_signals_readdata(9)          => gpio_0(27),
+      lcd_output_signals_readdata(8)          => gpio_0(26),
+      lcd_output_signals_readdata(7 downto 0) => gpio_0(35 downto 28)
     );
 
-end architecture de10nano_arch;
+  end architecture de10nano_arch;
