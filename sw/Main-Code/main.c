@@ -58,10 +58,10 @@ int main()
                 exit(1);
         }
         // Open RGB
-        rgb_controller = fopen("failed to open /dev/rgb_controller", "rb+");
+        rgb_controller = fopen("/dev/rgb_controller", "rb+");
         if (rgb_controller == NULL)
         {
-                printf("failed to open file\n");
+                printf("failed to open file /dev/rgb_controller\n");
                 exit(1);
         }
         // Open LCD
