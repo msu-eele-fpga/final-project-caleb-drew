@@ -67,6 +67,22 @@
          type = "int";
       }
    }
+   element lcd_passthrough_0
+   {
+      datum _sortIndex
+      {
+         value = "7";
+         type = "int";
+      }
+   }
+   element lcd_passthrough_0.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "64";
+         type = "String";
+      }
+   }
    element motor_interface_0
    {
       datum _sortIndex
@@ -432,6 +448,11 @@
  <interface name="hps_io" internal="hps.hps_io" type="conduit" dir="end" />
  <interface name="hps_spim0" internal="hps.spim0" />
  <interface name="hps_spim0_sclk_out" internal="hps.spim0_sclk_out" />
+ <interface
+   name="lcd_passthrough"
+   internal="lcd_passthrough_0.export"
+   type="conduit"
+   dir="end" />
  <interface name="memory" internal="hps.memory" type="conduit" dir="end" />
  <interface
    name="motor_interface"
@@ -1206,6 +1227,11 @@
   <parameter name="USE_PLI" value="0" />
  </module>
  <module
+   name="lcd_passthrough_0"
+   kind="lcd_passthrough"
+   version="1.0"
+   enabled="1" />
+ <module
    name="motor_interface_0"
    kind="motor_interface"
    version="1.0"
@@ -1245,6 +1271,15 @@
  <connection
    kind="avalon"
    version="21.1"
+   start="hps.h2f_lw_axi_master"
+   end="lcd_passthrough_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="21.1"
    start="jtag_master.master"
    end="adc.adc_slave">
   <parameter name="arbitrationPriority" value="1" />
@@ -1270,6 +1305,15 @@
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
+   kind="avalon"
+   version="21.1"
+   start="jtag_master.master"
+   end="lcd_passthrough_0.avalon_slave_0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0040" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
    kind="clock"
    version="21.1"
    start="fpga_clk.clk"
@@ -1284,6 +1328,11 @@
    version="21.1"
    start="fpga_clk.clk"
    end="rgb_controller_0.clk" />
+ <connection
+   kind="clock"
+   version="21.1"
+   start="fpga_clk.clk"
+   end="lcd_passthrough_0.clock" />
  <connection
    kind="clock"
    version="21.1"
@@ -1315,12 +1364,22 @@
    kind="reset"
    version="21.1"
    start="fpga_clk.clk_reset"
+   end="lcd_passthrough_0.reset" />
+ <connection
+   kind="reset"
+   version="21.1"
+   start="fpga_clk.clk_reset"
    end="rgb_controller_0.rst" />
  <connection
    kind="reset"
    version="21.1"
    start="hps.h2f_reset"
    end="motor_interface_0.reset" />
+ <connection
+   kind="reset"
+   version="21.1"
+   start="hps.h2f_reset"
+   end="lcd_passthrough_0.reset" />
  <connection
    kind="reset"
    version="21.1"
