@@ -31,16 +31,17 @@ static unsigned long VOLTAGE_SCALE_MV = 1;
 
 /**
  * struct adc_dev - Private led patterns device struct.
- * @base_addr: Pointer to the component's base address 
- * @hps_led_control: Pointer to the hps_led_control register 
- * @base_period: Pointer to the base_period register 
- * @led_reg: Pointer to the led_reg register 
+ * @base_addr: Pointer to the component's base address
+ * @hps_led_control: Pointer to the hps_led_control register
+ * @base_period: Pointer to the base_period register
+ * @led_reg: Pointer to the led_reg register
  * @miscdev: miscdevice used to create a character device
- * @lock: mutex used to prevent concurrent writes to memory 
+ * @lock: mutex used to prevent concurrent writes to memory
  *
  * An adc_dev struct gets created for each led patterns component.
  */
-struct adc_dev {
+struct adc_dev
+{
 	void __iomem *base_addr;
 	bool auto_update;
 	struct miscdevice miscdev;
@@ -59,7 +60,7 @@ struct adc_dev {
  * value is returned.
  */
 static ssize_t adc_read(struct file *file, char __user *buf,
-	size_t count, loff_t *offset)
+						size_t count, loff_t *offset)
 {
 	size_t ret;
 	u32 val;
@@ -67,22 +68,25 @@ static ssize_t adc_read(struct file *file, char __user *buf,
 	/*
 	 * Get the device's private data from the file struct's private_data
 	 * field. The private_data field is equal to the miscdev field in the
-	 * adc_dev struct. container_of returns the 
-     * adc_dev struct that contains the miscdev in private_data.
+	 * adc_dev struct. container_of returns the
+	 * adc_dev struct that contains the miscdev in private_data.
 	 */
 	struct adc_dev *priv = container_of(file->private_data,
-	                            struct adc_dev, miscdev);
+										struct adc_dev, miscdev);
 
 	// Check file offset to make sure we are reading from a valid location.
-	if (*offset < 0) {
+	if (*offset < 0)
+	{
 		// We can't read from a negative file position.
 		return -EINVAL;
 	}
-	if (*offset >= SPAN) {
+	if (*offset >= SPAN)
+	{
 		// We can't read from a position past the end of our device.
 		return 0;
 	}
-	if ((*offset % 0x4) != 0) {
+	if ((*offset % 0x4) != 0)
+	{
 		// Prevent unaligned access.
 		pr_warn("adc_read: unaligned access\n");
 		return -EFAULT;
@@ -92,7 +96,8 @@ static ssize_t adc_read(struct file *file, char __user *buf,
 
 	// Copy the value to userspace.
 	ret = copy_to_user(buf, &val, sizeof(val));
-	if (ret == sizeof(val)) {
+	if (ret == sizeof(val))
+	{
 		pr_warn("adc_read: nothing copied\n");
 		return -EFAULT;
 	}
@@ -115,22 +120,25 @@ static ssize_t adc_read(struct file *file, char __user *buf,
  * value is returned.
  */
 static ssize_t adc_write(struct file *file, const char __user *buf,
-	size_t count, loff_t *offset)
+						 size_t count, loff_t *offset)
 {
 	size_t ret;
 	u32 val;
 
 	struct adc_dev *priv = container_of(file->private_data,
-	                              struct adc_dev, miscdev);
+										struct adc_dev, miscdev);
 
-	if (*offset < 0) {
+	if (*offset < 0)
+	{
 		return -EINVAL;
 	}
-	if (*offset >= AUTO_UPDATE) {
+	if (*offset >= AUTO_UPDATE)
+	{
 		// can't write past to the read-only adc channel registers
 		return -EINVAL;
 	}
-	if ((*offset % 0x4) != 0) {
+	if ((*offset % 0x4) != 0)
+	{
 		pr_warn("adc_write: unaligned access\n");
 		return -EFAULT;
 	}
@@ -139,7 +147,8 @@ static ssize_t adc_write(struct file *file, const char __user *buf,
 
 	// Get the value from userspace.
 	ret = copy_from_user(&val, buf, sizeof(val));
-	if (ret != sizeof(val)) {
+	if (ret != sizeof(val))
+	{
 		iowrite32(val, priv->base_addr + *offset);
 
 		// Increment the file offset by the number of bytes we wrote.
@@ -148,7 +157,8 @@ static ssize_t adc_write(struct file *file, const char __user *buf,
 		// Return the number of bytes we wrote.
 		ret = sizeof(val);
 	}
-	else {
+	else
+	{
 		pr_warn("adc_write: nothing copied from user space\n");
 		ret = -EFAULT;
 	}
@@ -157,18 +167,18 @@ static ssize_t adc_write(struct file *file, const char __user *buf,
 	return ret;
 }
 
-/** 
- *  adc_fops - File operations supported by the  
+/**
+ *  adc_fops - File operations supported by the
  *                          adc driver
- * @owner: The adc driver owns the file operations; this 
- *         ensures that the driver can't be removed while the 
+ * @owner: The adc driver owns the file operations; this
+ *         ensures that the driver can't be removed while the
  *         character device is still in use.
  * @read: The read function.
  * @write: The write function.
- * @llseek: We use the kernel's default_llseek() function; this allows 
+ * @llseek: We use the kernel's default_llseek() function; this allows
  *          users to change what position they are writing/reading to/from.
  */
-static const struct file_operations  adc_fops = {
+static const struct file_operations adc_fops = {
 	.owner = THIS_MODULE,
 	.read = adc_read,
 	.write = adc_write,
@@ -187,11 +197,11 @@ static const struct file_operations  adc_fops = {
  */
 /**
  * update_store() - Start new ADC conversions.
- * 
+ *
  * Writing *any* value to the update register triggers an update.
- * 
- * @dev: Device structure for the adc component. This 
- *       device struct is embedded in the adc's platform 
+ *
+ * @dev: Device structure for the adc component. This
+ *       device struct is embedded in the adc's platform
  *       device struct.
  * @attr: Unused.
  * @buf: Buffer that contains the value being written.
@@ -200,11 +210,11 @@ static const struct file_operations  adc_fops = {
  * Return: The number of bytes stored.
  */
 static ssize_t update_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
+							struct device_attribute *attr, const char *buf, size_t size)
 {
 	struct adc_dev *priv = dev_get_drvdata(dev);
 
-	/* 
+	/*
 	 * Since writing any value to the update register triggers an update,
 	 * it doesn't matter what we write or what the user writes. So we ignore
 	 * what the user wants to write and just write a 1 :)
@@ -216,8 +226,8 @@ static ssize_t update_store(struct device *dev,
 
 /**
  * auto_update_store() - Enable/disable auto-update
- * 
- * @dev: Device structure for the adc component. 
+ *
+ * @dev: Device structure for the adc component.
  * @attr: Unused.
  * @buf: Buffer that contains the value being written.
  * @size: The number of bytes being written.
@@ -225,14 +235,15 @@ static ssize_t update_store(struct device *dev,
  * Return: The number of bytes stored.
  */
 static ssize_t auto_update_store(struct device *dev,
-	struct device_attribute *attr, const char *buf, size_t size)
+								 struct device_attribute *attr, const char *buf, size_t size)
 {
 
 	int ret;
 	struct adc_dev *priv = dev_get_drvdata(dev);
 
 	ret = kstrtobool(buf, &(priv->auto_update));
-	if (ret < 0) {
+	if (ret < 0)
+	{
 		return ret;
 	}
 
@@ -243,14 +254,14 @@ static ssize_t auto_update_store(struct device *dev,
 
 /**
  * auto_update_show() - Read the auto_update setting.
- * @dev: Device structure for the adc component. 
+ * @dev: Device structure for the adc component.
  * @attr: Unused.
  * @buf: Buffer that gets returned to user-space.
  *
  * Return: The number of bytes read.
  */
 static ssize_t auto_update_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
+								struct device_attribute *attr, char *buf)
 {
 	struct adc_dev *priv = dev_get_drvdata(dev);
 
@@ -263,21 +274,21 @@ static ssize_t auto_update_show(struct device *dev,
 
 /**
  * adc_ch_show() - Read ADC channel value.
- * 
- * @dev: Device structure for the adc component. 
+ *
+ * @dev: Device structure for the adc component.
  * @attr: Which adc channel attribute we're reading from.
  * @buf: Buffer that gets returned to user-space.
  *
  * Return: The number of bytes read.
  */
 static ssize_t adc_ch_show(struct device *dev,
-	struct device_attribute *attr, char *buf)
+						   struct device_attribute *attr, char *buf)
 {
 	u16 adc_value;
 	struct adc_dev *priv = dev_get_drvdata(dev);
 
-	struct dev_ext_attribute *ch_attr = container_of(attr, 
-		struct dev_ext_attribute, attr);
+	struct dev_ext_attribute *ch_attr = container_of(attr,
+													 struct dev_ext_attribute, attr);
 
 	u32 ch_offset = *(u32 *)(ch_attr->var);
 
@@ -293,13 +304,13 @@ static ssize_t adc_ch_show(struct device *dev,
  * https://elixir.bootlin.com/linux/v6.12/source/include/linux/device.h#L118
  * https://stackoverflow.com/questions/48540242/how-can-i-create-lots-of-similar-functions-for-sysfs-attributes
  */
-#define DEVICE_ADC_CH_ATTR(_name, _reg_offset) \
+#define DEVICE_ADC_CH_ATTR(_name, _reg_offset)  \
 	struct dev_ext_attribute dev_attr_##_name = \
-		{ __ATTR(_name, 0444, adc_ch_show, NULL), &(_reg_offset) }
+		{__ATTR(_name, 0444, adc_ch_show, NULL), &(_reg_offset)}
 
-#define DEVICE_ULONG_ATTR_RO(_name, _var) \
+#define DEVICE_ULONG_ATTR_RO(_name, _var)       \
 	struct dev_ext_attribute dev_attr_##_name = \
-		{ __ATTR(_name, 0444, device_show_ulong, NULL), &(_var) }
+		{__ATTR(_name, 0444, device_show_ulong, NULL), &(_var)}
 
 static DEVICE_ATTR_WO(update);
 static DEVICE_ATTR_RW(auto_update);
@@ -351,8 +362,9 @@ static int adc_probe(struct platform_device *pdev)
 	 * is automatically freed when the device is removed.
 	 */
 	priv = devm_kzalloc(&pdev->dev, sizeof(struct adc_dev),
-	                    GFP_KERNEL);
-	if (!priv) {
+						GFP_KERNEL);
+	if (!priv)
+	{
 		pr_err("Failed to allocate memory\n");
 		return -ENOMEM;
 	}
@@ -364,7 +376,8 @@ static int adc_probe(struct platform_device *pdev)
 	 * to physical memory locations.
 	 */
 	priv->base_addr = devm_platform_ioremap_resource(pdev, 0);
-	if (IS_ERR(priv->base_addr)) {
+	if (IS_ERR(priv->base_addr))
+	{
 		pr_err("Failed to request/remap platform device resource\n");
 		return PTR_ERR(priv->base_addr);
 	}
@@ -377,7 +390,8 @@ static int adc_probe(struct platform_device *pdev)
 
 	// Register the misc device; this creates a char dev at /dev/adc
 	ret = misc_register(&priv->miscdev);
-	if (ret) {
+	if (ret)
+	{
 		pr_err("Failed to register misc device");
 		return ret;
 	}
@@ -413,7 +427,6 @@ static int adc_remove(struct platform_device *pdev)
 	return 0;
 }
 
-
 /*
  * Define the compatible property used for matching devices to this driver,
  * then add our device id structure to the kernel's device table. For a device
@@ -421,9 +434,10 @@ static int adc_remove(struct platform_device *pdev)
  * compatible string as defined here.
  */
 static const struct of_device_id adc_of_match[] = {
-	{ .compatible = "adsd,de10nano_adc", },
-	{ }
-};
+	{
+		.compatible = "Binfet,de10nano_adc",
+	},
+	{}};
 MODULE_DEVICE_TABLE(of, adc_of_match);
 
 /**
@@ -438,7 +452,7 @@ static struct platform_driver adc_driver = {
 	.probe = adc_probe,
 	.remove = adc_remove,
 	.driver = {
-        .owner = THIS_MODULE,
+		.owner = THIS_MODULE,
 		.name = "adc",
 		.of_match_table = adc_of_match,
 		.dev_groups = adc_groups,
