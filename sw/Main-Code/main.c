@@ -87,9 +87,11 @@ int main()
                 exit(1);
         }
         // init lcd
+        ret = fseek(lcd_controller, LCD_OUT_OFFSET, SEEK_SET);
         ret = fwrite(&lcd_function_set, 4, 1, lcd_controller);
         fflush(lcd_controller);
         sleep(0.5);
+        ret = fseek(lcd_controller, LCD_OUT_OFFSET, SEEK_SET);
         ret = fwrite(&lcd_on, 4, 1, lcd_controller);
         fflush(lcd_controller);
         sleep(0.5);
@@ -134,6 +136,7 @@ int main()
                 sleep(0.5);
 
                 //---LCD Tests
+                ret = fseek(lcd_controller, LCD_OUT_OFFSET, SEEK_SET);
                 ret = fwrite(&lcd_test_char, 4, 1, lcd_controller);
                 fflush(lcd_controller);
 
