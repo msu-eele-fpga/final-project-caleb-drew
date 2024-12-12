@@ -3,6 +3,7 @@
 
 ## Files : 
 
+
 ### encoder_counter.vhd
  This Hardware component is reponsible for interfacing with the quadrature encoder mounted to the DC motor. It counts the pulses and outputs a signal named encoder_counts that is either incremented or decremented based on the diretion of rotation of the motor shaft.
 
@@ -19,3 +20,5 @@ This hardware component instantiates the motor_interface.vhd and is responsible 
 This component is the same one created previosly in class. It instantiates three pwm controllers with the same period such that the three pwm outputs that drive and RGB LED can be controlled by the arm processor on the board. 
 
 
+### LCD_passthrough.vhd
+This component was responsible for createing a passthrough to the LCD hardware. This allows for the data from the Avalon bus to be put on the 8-bit parrallel bus the LCD reads from. 
