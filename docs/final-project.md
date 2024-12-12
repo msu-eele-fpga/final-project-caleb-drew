@@ -17,7 +17,7 @@
 
 
 ## LCD Hardware Component
-The LCD Component was created twice, once that works purely in software [more details here](../hdl/LCD-Controller/README.md). A finalized version of this hardware component operates as almost a complete direct passthrough. This passthrough module [here](../hdl/LCD-Passthrough/README.md) allows for data from the avalon bus to be directly passed to an 8-bit parrallel bus for the LCD to read. 
+The LCD Component was created twice, once that works purely in software [more details here](../hdl/LCD-Controller/README.md). A finalized version of this hardware component operates as almost a complete direct passthrough. This passthrough module [here](../hdl/LCD-Passthrough/README.md) allows for data from the avalon bus to be directly passed to an 8-bit parallel bus for the LCD to read. 
 
 Please see the full documentation on each readme. 
 
