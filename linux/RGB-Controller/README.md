@@ -11,15 +11,24 @@ Run `make` in this directory to build to kernel module.
 
 Use the following device tree node:
 ```devicetree
-    //DC motor 
-    motor_interface: motor_interface@ff200010{
-        compatible = "Currie,motor_interface";
-        reg = <0xff200010 12>;
-        };
+  //Hardware RGB controller
+    //Connected to pins GPIO_0[0] through GPIO_0[2]
+    rgb_controller: rgb_controller@ff20000{
+        compatible = "Binfet,rgb_controller";
+        reg = <0xff200000 16>;
+    };
 ```
- 
+
 
 ## Notes / bugs
 
 
 ## Register map
+| Offset | Name             | R/W | Purpose                               |
+| ------ | --------------   | --- | ------------------------------------- |
+| 0x0    | Period           | R/W | Period of the PWM Outputs             |
+| 0x4    | Red Duty Cycle   | R/W | Duty Cycle of Red PWM                 |
+| 0x8    | Green Duty Cycle | R/W | Duty Cycle of Green PWM               |
+| 0xC    | Blue Duty Cycle  | R/W | Duty Cycle of Blue PWM                |
+
+

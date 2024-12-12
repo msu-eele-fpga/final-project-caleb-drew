@@ -3,7 +3,6 @@
 
 ## Files : 
 
-
 ### encoder_counter.vhd
  This Hardware component is reponsible for interfacing with the quadrature encoder mounted to the DC motor. It counts the pulses and outputs a signal named encoder_counts that is either incremented or decremented based on the diretion of rotation of the motor shaft.
 
