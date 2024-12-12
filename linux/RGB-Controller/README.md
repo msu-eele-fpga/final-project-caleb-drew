@@ -2,10 +2,24 @@
 This device is reponsible for outputing pwm to the rgb led. 
 
 ## Building
-There is a make file included in this directory. 
+The Makefile in this directory cross-compiles the driver. Update the `KDIR` variable to point to your linux-socfpga repository directory.
 
-Run `make` in tis directory to build the kernal module.
+Run `make` in this directory to build to kernel module.
 
-## Device Tree node
 
-See the linux README.md for the full device treee node list. 
+## Device tree node
+
+Use the following device tree node:
+```devicetree
+    //DC motor 
+    motor_interface: motor_interface@ff200010{
+        compatible = "Currie,motor_interface";
+        reg = <0xff200010 12>;
+        };
+```
+ 
+
+## Notes / bugs
+
+
+## Register map
