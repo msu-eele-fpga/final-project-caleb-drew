@@ -1,6 +1,6 @@
-# Pololu Motor Driver *MODEL NUMBER HERE*
+# Pololu Motor Driver G2 High-Power motor driver
 
-Connected to the FPGA on pins *PIN NUMBERS HERE* is the Pololu *MODEL NUMBER*. This motor driver requires *.... More details here*
+Connected to the FPGA on pins *PIN NUMBERS HERE* is the Pololu 2991. This motor driver requires *.... More details here*
 
 ## Building
 
