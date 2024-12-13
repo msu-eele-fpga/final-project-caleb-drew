@@ -2,7 +2,7 @@
 
 ## Table of Contents
 ### Custom hardware
-- [LCD Custom Component](/hdl/LCD-Passthrough/README)
+- [LCD Custom Component](/hdl/LCD-Passthrough/README.md)
 - [Motor Controller Component](/hdl/Motor-Interface/README.md)
 - [RGB Controller Component](/hdl/RGB-Controller/README.md)
 ### Device tree and drivers
