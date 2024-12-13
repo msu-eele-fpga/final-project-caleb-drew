@@ -21,7 +21,7 @@ The LCD Component was created twice, once that works purely in software [more de
 
 Please see the full documentation on each readme. 
 
-## Motor Interfac/EncoderCounter
+## Motor Interface/EncoderCounter
 The Motor Interface component instantiates a encoder counter and a pwm generator component and is responsible for setting a direction pin such that it is easy to interact with a traditional motor driver [more info here](../hdl/Motor-Interface/README.md). The motor interface avalon component allows for control of the pwm output and direction as well as read acces to the counts from the encoder mounted to the dc motor[more info here](../hdl/Motor-Interface/README.md).
 
 Please see the full documentation on each readme. 
