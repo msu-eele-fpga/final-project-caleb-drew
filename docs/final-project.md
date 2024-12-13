@@ -2,16 +2,16 @@
 
 ## Table of Contents
 ### Custom hardware
-- [LCD Custom Component](hdl/LCD-Passthrough/README)
-- [Motor Controller Component](hdl/Motor-Interface/README.md)
-- [RGB Controller Component](hdl/RGB-Controller/README.md)
+- [LCD Custom Component](/hdl/LCD-Passthrough/README)
+- [Motor Controller Component](/hdl/Motor-Interface/README.md)
+- [RGB Controller Component](/hdl/RGB-Controller/README.md)
 ### Device tree and drivers
-- [Device Tree](linux/dts)
-- [Custom Linux](linux/Custom-Kernel/)
-- [LCD Driver](linux/LCD-Controller/README.md)
-- [Motor Driver](linux/Motor-Controller/README.md)
+- [Device Tree](/linux/dts)
+- [Custom Linux](/linux/Custom-Kernel/)
+- [LCD Driver](/linux/LCD-Controller/README.md)
+- [Motor Driver](/linux/Motor-Controller/README.md)
 - [RGB Controller](linux/RGB-Controller/README.md)
-- [ADC](linux/ADC/README.md)
+- [ADC](/linux/ADC/README.md)
 
 ## System Overview
 
