@@ -1,3 +1,10 @@
+--
+-- EELE - 467 Final project
+-- Montana State University Fall 2024
+-- Created 12/10/24 Caleb Binfet
+-- License : GPL
+-- This compoennt will control a motor driver to drive a DC Motor as well as interpret the signals from a quadrature encoder
+--
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;

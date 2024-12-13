@@ -1,6 +1,6 @@
-# Pololu Motor Driver *MODEL NUMBER HERE*
+# Pololu Motor Driver G2 High-Power motor driver
 
-Connected to the FPGA on pins *PIN NUMBERS HERE* is the Pololu *MODEL NUMBER*. This motor driver requires *.... More details here*
+Connected to the FPGA on pins 2 and 3 is the Pololu 2991. This motor driver requires a pwm output and a direction pin that switches which output lead is the ground. 
 
 ## Building
 
@@ -20,16 +20,16 @@ Use the following device tree node:
 ```
 
 ## Notes / bugs :bug:
-
+ The encoder counts seems to work intermittantly I am unsure of if this is a current limitting issue of the source or a logic level problem.
 
 ## Register map
 
 
 | Offset | Name           | R/W | Purpose                               |
 | ------ | -------------- | --- | ------------------------------------- |
-| 0x10   | Period         | R/W | Period of the PWM Output              |
-| 0x14   | Duty cycle     | R/W | Duty cycle of motor PWM and direction |
-| 0x18   | Encoder Counts | R   | Read encoder counts                   |
+| 0x0    | Period         | R/W | Period of the PWM Output              |
+| 0x4    | Duty cycle     | R/W | Duty cycle of motor PWM and direction |
+| 0x8    | Encoder Counts | R   | Read encoder counts                   |
 
 
 ## Documentation

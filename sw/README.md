@@ -1,3 +1,3 @@
 # Software source code
 
-Software source code will go here. Use subfolders to organize the software how you like.
+This folder contains Main-Code and RGB-Patterns which have c source code and compiled binaries that are meant to be used with the DE10nano board. 
