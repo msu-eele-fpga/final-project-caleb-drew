@@ -66,7 +66,10 @@ architecture lcd_arch of lcd_controller is
   -- Timing is 100 ns per write to the LCD
   --
   constant ENABLE_LATCH_TIME : integer := 5;
+
   signal enable_latch_delay  : boolean;
+
+
   signal done_latch          : boolean;
 begin
   --Busy timer
@@ -86,13 +89,16 @@ begin
     enable => enable_latch_delay,
     done   => done_latch
   );
+
   proc_lcd_write : process (clk, reset, ready_flag)
+
   begin
     if reset = '1' then
       output_register <= "00000000";
       rs              <= '0';
       latch           <= '0';
       busy_flag       <= '0';
+
     elsif rising_edge(clk) then
       --ready_flag is active high
 
@@ -130,3 +136,4 @@ begin
     end process;
 
   end architecture;
+
